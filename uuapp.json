@@ -1,0 +1,17 @@
+{
+  "product": "log_book_maing01",
+  "version": "0.1.0",
+  "license": "License Commercial",
+  "description": {
+    "en": "",
+    "cs": ""
+  },
+  "devkit": {
+    "development": {
+      "appBoxLocationUri": "----- VALUE REQUIRED -----",
+      "appDeploymentUri": null
+    }
+  },
+  "log_book_maing01-hi": {},
+  "log_book_maing01-server": {}
+}
