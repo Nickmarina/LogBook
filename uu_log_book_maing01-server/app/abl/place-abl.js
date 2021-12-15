@@ -24,6 +24,45 @@ class PlaceAbl {
     this.dao = DaoFactory.getDao("place");
   }
 
+  async list(awid, dtoIn, uuAppErrorMap) {
+    // HDS 1
+    const logBook = await this.logBookDao.getByAwid(awid);
+    if (!logBook) {
+      throw new Errors.List.LogBookDoesNotExist({ uuAppErrorMap }, { awid });
+    }
+    if (logBook.state !== "active") {
+      throw new Errors.List.LogBookIsNotInCorrectState(
+        { uuAppErrorMap },
+        { awid, state: logBook.state, expectedState: "active" }
+      );
+    }
+    // HDS 2
+    const validationResult = this.validator.validate("placeGetDtoInType", dtoIn);
+    uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.unsupportedKeys.code,
+      Errors.List.InvalidDtoIn
+    );
+
+    //  HDS 3
+    let uuObject = { ...dtoIn, awid };
+    if (!dtoIn.pageInfo) uuObject.pageInfo = {};
+    if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 0;
+    if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 1000;
+
+    // HDS 4
+    const list = await this.dao.list(uuObject.awid, uuObject.pageInfo);
+    if (!list) throw new Errors.List.PlaceListDaoCreateFailed({ uuAppErrorMap }, { awid });
+
+    // HDS 5
+    return {
+      ...list,
+      pageInfo: uuObject.pageInfo,
+      uuAppErrorMap,
+    };
+  }
+
   async get(awid, dtoIn, uuAppErrorMap) {
     // HDS 1
     const logBook = await this.logBookDao.getByAwid(awid);

@@ -3,6 +3,10 @@ const PlaceAbl = require("../../abl/place-abl.js");
 
 class PlaceController {
 
+  list(ucEnv) {
+    return PlaceAbl.list(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
+  }
+
   get(ucEnv) {
     return PlaceAbl.get(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
   }

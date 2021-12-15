@@ -84,6 +84,10 @@
       "personalPilotCard/delete": {
         "sysStateList": ["active"],
         "profileList": ["Operators"]
+      },
+      "place/list": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
       }
     }
   }

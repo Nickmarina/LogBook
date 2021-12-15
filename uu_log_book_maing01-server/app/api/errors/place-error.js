@@ -109,7 +109,43 @@ const Get = {
   },
 };
 
+const List = {
+  UC_CODE: `${PLACE_ERROR_PREFIX}list/`,
+  InvalidDtoIn: class extends BookMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${List.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+
+  LogBookDoesNotExist: class extends BookMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${List.UC_CODE}logBookDoesNotExist`;
+      this.message = "LogBook does not exist.";
+    }
+  },
+
+  LogBookIsNotInCorrectState: class extends BookMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${List.UC_CODE}logBookIsNotInCorrectState`;
+      this.message = "LogBook is not in correct state.";
+    }
+  },
+
+  PlaceListDaoCreateFailed: class extends BookMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${List.UC_CODE}placeListDaoCreateFailed`;
+      this.message = "Create place list by DAO create failed.";
+    }
+  },
+};
+
 module.exports = {
+  List,
   Get,
   Delete,
   Create,

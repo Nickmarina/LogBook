@@ -16,7 +16,6 @@ const WARNINGS = {
 
 const logger = LoggerFactory.get("BookMainAbl");
 
-
 class BookMainAbl {
   constructor() {
     this.validator = Validator.load();
@@ -35,7 +34,7 @@ class BookMainAbl {
     );
 
     // HDS 2
-    const schemas = ["logBook", "place", "aircraft", "personalPilotCard ","logBookEntry"];
+    const schemas = ["logBook", "place", "aircraft", "personalPilotCard ", "logBookEntry"];
     let schemaCreateResults = schemas.map(async (schema) => {
       try {
         return await DaoFactory.getDao(schema).createSchema();
@@ -44,7 +43,6 @@ class BookMainAbl {
       }
     });
     await Promise.all(schemaCreateResults);
-
 
     if (dtoIn.uuBtLocationUri) {
       const baseUri = uri.getBaseUri();
@@ -87,38 +85,36 @@ class BookMainAbl {
         session
       );
     }
-    
-        // HDS  3
-        const {uuAppProfileAuthorities, ...restDtoIn} = dtoIn;
 
-        if (uuAppProfileAuthorities) {
-          try {
-            await Profile.set(awid, "Authorities", uuAppProfileAuthorities);
-          } catch (e) {
-            if (e instanceof UuAppWorkspaceError) {
-              throw new Errors.Init.SysSetProfileFailed({ uuAppErrorMap }, { role: uuAppProfileAuthorities }, e);
-            }
-            throw e;
-          }
+    // HDS  3
+    const { uuAppProfileAuthorities, ...restDtoIn } = dtoIn;
+
+    if (uuAppProfileAuthorities) {
+      try {
+        await Profile.set(awid, "Authorities", uuAppProfileAuthorities);
+      } catch (e) {
+        if (e instanceof UuAppWorkspaceError) {
+          throw new Errors.Init.SysSetProfileFailed({ uuAppErrorMap }, { role: uuAppProfileAuthorities }, e);
         }
-
-      // HDS 4
-
-      const uuObject ={ ...restDtoIn, state: "active", awid};
-
-      let uuLogBook = null;
-          
-      try{
-          uuLogBook= await this.dao.create(uuObject)
-      }catch (e){
-          throw new Errors.Init.LogBookDaoCreateFailed({uuAppErrorMap}, e)
+        throw e;
       }
-    
-  
+    }
+
+    // HDS 4
+
+    const uuObject = { ...restDtoIn, state: "active", awid };
+
+    let uuLogBook = null;
+
+    try {
+      uuLogBook = await this.dao.create(uuObject);
+    } catch (e) {
+      throw new Errors.Init.LogBookDaoCreateFailed({ uuAppErrorMap }, e);
+    }
 
     return {
       ...uuLogBook,
-      uuAppErrorMap
+      uuAppErrorMap,
     };
   }
 }

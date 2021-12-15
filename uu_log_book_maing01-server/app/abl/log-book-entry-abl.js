@@ -1,5 +1,4 @@
 "use strict";
-const Path = require("path");
 const { Validator } = require("uu_appg01_server").Validation;
 const { DaoFactory } = require("uu_appg01_server").ObjectStore;
 const { ValidationHelper } = require("uu_appg01_server").AppServer;
@@ -18,6 +17,9 @@ const WARNINGS = {
   getUnsupportedKeys: {
     code: `${Errors.Get.UC_CODE}unsupportedKeys`,
   },
+  deleteUnsupportedKeys: {
+    code: `${Errors.Delete.UC_CODE}unsupportedKeys`,
+  },
 };
 
 class LogBookEntryAbl {
@@ -28,7 +30,40 @@ class LogBookEntryAbl {
     this.dao = DaoFactory.getDao("logBookEntry");
   }
 
-  async delete(awid, dtoIn, uuAppErrorMap) {}
+  async delete(awid, dtoIn, uuAppErrorMap) {
+    // HDS 1
+    const logBook = await this.logBook.getByAwid(awid);
+    if (!logBook) {
+      throw new Errors.Delete.LogBookDoesNotExist({ uuAppErrorMap }, { awid });
+    }
+    if (logBook.state !== "active") {
+      throw new Errors.Delete.LogBookIsNotInCorrectState(
+        { uuAppErrorMap },
+        { awid, currentState: logBook.state, expectedState: "active" }
+      );
+    }
+
+    // HDS 2
+    const validationResult = this.validator.validate("logBookEntryDeleteDtoInType", dtoIn);
+    uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.deleteUnsupportedKeys.code,
+      Errors.Delete.InvalidDtoIn
+    );
+    // HDS 3
+    const entry = await this.dao.get(awid, dtoIn.id);
+    if (!entry) {
+      throw new Errors.Delete.EntryDoesNotExist({ uuAppErrorMap }, { entry: dtoIn.id });
+    }
+    // HDS 4
+    await this.dao.delete(awid, dtoIn.id);
+
+    // HDS 5
+    return {
+      uuAppErrorMap,
+    };
+  }
 
   async get(awid, dtoIn, uuAppErrorMap) {
     // HDS 1
@@ -128,8 +163,6 @@ class LogBookEntryAbl {
       WARNINGS.listUnsupportedKeys.code,
       Errors.List.InvalidDtoIn
     );
-
-    
   }
 
   async create(awid, dtoIn, uuAppErrorMap) {

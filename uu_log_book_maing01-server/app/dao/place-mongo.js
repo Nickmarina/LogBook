@@ -35,7 +35,7 @@ class PlaceMongo extends UuObjectDao {
     return await super.deleteOne(filter);
   }
 
-  async list(awid, sortBy, order, pageInfo) {
+  async list(awid, pageInfo) {
     return await super.find({ awid }, pageInfo);
   }
 }

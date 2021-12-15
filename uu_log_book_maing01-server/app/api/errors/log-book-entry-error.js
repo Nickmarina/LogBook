@@ -175,6 +175,37 @@ const Get = {
 
 const Delete = {
   UC_CODE: `${LOG_BOOK_ENTRY_ERROR_PREFIX}delete/`,
+  InvalidDtoIn: class extends BookMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+
+  LogBookDoesNotExist: class extends BookMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}logBookDoesNotExist`;
+      this.message = "LogBook does not exist.";
+    }
+  },
+
+  LogBookIsNotInCorrectState: class extends BookMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}logBookIsNotInCorrectState`;
+      this.message = "LogBook is not in correct state.";
+    }
+  },
+
+  EntryDoesNotExist: class extends BookMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}entryDoesNotExist`;
+      this.message = "Entry Does Not Exist";
+    }
+  },
 };
 
 module.exports = {
