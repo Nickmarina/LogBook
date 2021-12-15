@@ -4,11 +4,8 @@
       "type": "uuAppObjectStore",
       "realization": "MongoDB",
       "schemaMap": {
-        "bookMain": {
-          "realization": "dao/BookMainMongo"
-        },
         "logBook": {
-          "realization": "dao/LogBookMongo",
+          "realization": "dao/BookMainMongo",
           "maxNoi": 1
         },
         "place": {
@@ -19,7 +16,7 @@
           "realization": "dao/AircraftMongo",
           "maxNoi": 10000
         },
-        "personalPilotCard ": {
+        "personalPilotCard": {
           "realization": "dao/PersonalPilotCardMongo",
           "maxNoi": 10000
         },

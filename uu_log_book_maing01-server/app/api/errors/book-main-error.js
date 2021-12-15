@@ -29,6 +29,21 @@ const Init = {
     }
   },
 
+  LogBookDaoCreateFailed: class extends BookMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Init.UC_CODE}logBookDaoCreateFailed`;
+      this.message = "The system failed to create logBook.";
+    }
+  },
+
+  SysSetProfileFailed: class extends BookMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Init.UC_CODE}sysSetProfileFailed`;
+    }
+  },
+
   CreateAwscFailed: class extends BookMainUseCaseError {
     constructor() {
       super(...arguments);

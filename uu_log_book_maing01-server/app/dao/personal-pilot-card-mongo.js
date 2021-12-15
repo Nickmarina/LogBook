@@ -1,9 +1,9 @@
 "use strict";
 const { UuObjectDao } = require("uu_appg01_server").ObjectStore;
 
-class AircraftMongo extends UuObjectDao {
+class PersonalPilotCardMongo extends UuObjectDao {
   async createSchema() {
-    await super.createIndex({ awid: 1, regNum: 1 }, { unique: true });
+    await super.createIndex({ awid: 1, uuIdentity: 1 }, { unique: true });
     await super.createIndex({ awid: 1, id: 1 }, { unique: true });
   }
 
@@ -18,15 +18,6 @@ class AircraftMongo extends UuObjectDao {
     };
     return await super.findOne(filter);
   }
-
-  async update(uuObject) {
-    let filter = {
-      awid: uuObject.awid,
-      id: uuObject.id,
-    };
-    return await super.findOneAndUpdate(filter, uuObject, "NONE");
-  }
-
   async delete(awid, id) {
     let filter = {
       awid,
@@ -39,13 +30,21 @@ class AircraftMongo extends UuObjectDao {
     return await super.find({ awid }, pageInfo);
   }
 
-  async getByRegNum(awid, regNum) {
+  async getByUuIdentity(awid, uuIdentity) {
     let filter = {
       awid,
-      regNum,
+      uuIdentity,
     };
     return await super.findOne(filter);
   }
+
+  async deleteByUuIdentity(awid, uuIdentity) {
+    let filter = {
+      awid,
+      uuIdentity,
+    };
+    return await super.deleteOne(filter);
+  }
 }
 
-module.exports = AircraftMongo;
+module.exports = PersonalPilotCardMongo;

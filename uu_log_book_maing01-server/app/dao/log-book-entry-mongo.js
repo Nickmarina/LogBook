@@ -3,7 +3,7 @@ const { UuObjectDao } = require("uu_appg01_server").ObjectStore;
 
 class LogBookEntry extends UuObjectDao {
   async createSchema() {
-    await super.createIndex({ awid: 1,  id:1 } , { unique: true });
+    await super.createIndex({ awid: 1, id: 1 }, { unique: true });
   }
 
   async create(uuObject) {
@@ -34,13 +34,13 @@ class LogBookEntry extends UuObjectDao {
     return await super.deleteOne(filter);
   }
 
-  async list(awid, sortBy, order, pageInfo){
-    return await super.find({awid}, pageInfo);
- }
+  async list(awid, sortBy, order, pageInfo) {
+    return await super.find({ awid }, pageInfo);
+  }
 
-//  listByRegNum (awid, RegNum, sortBy, order, pageInfo) -> {itemList:[uuObject], pageInfo:{}}
-// listByRegNumAndUuIdentity (awid, uuIdentity, RegNum, sortBy, order, pageInfo) -> {itemList:[uuObject], pageInfo:{}}
-// listByUuIdentity (awid, uuIdentity, sortBy, order, pageInfo) -> {itemList:[uuObject], pageInfo:{}}
+  //  listByRegNum (awid, RegNum, sortBy, order, pageInfo) -> {itemList:[uuObject], pageInfo:{}}
+  // listByRegNumAndUuIdentity (awid, uuIdentity, RegNum, sortBy, order, pageInfo) -> {itemList:[uuObject], pageInfo:{}}
+  // listByUuIdentity (awid, uuIdentity, sortBy, order, pageInfo) -> {itemList:[uuObject], pageInfo:{}}
 }
 
 module.exports = LogBookEntry;

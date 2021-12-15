@@ -15,6 +15,91 @@
         "realization": "index.html",
         "httpMethod": "GET",
         "type": "UVE"
+      },
+      "logBookEntry/create": {
+        "realization": "api/controllers/LogBookEntryController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "logBookEntry/list": {
+        "realization": "api/controllers/LogBookEntryController.list",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "logBookEntry/listByPilot": {
+        "realization": "api/controllers/LogBookEntryController.listByPilot",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "logBookEntry/update": {
+        "realization": "api/controllers/LogBookEntryController.update",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "logBookEntry/get": {
+        "realization": "api/controllers/LogBookEntryController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "LogBookEntry/delete": {
+        "realization": "api/controllers/LogBookEntryController.delete",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "aircraft/create": {
+        "realization": "api/controllers/AircraftController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "aircraft/get": {
+        "realization": "api/controllers/AircraftController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "aircraft/delete": {
+        "realization": "api/controllers/AircraftController.delete",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "aircraft/list": {
+        "realization": "api/controllers/AircraftController.list",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "aircraft/setState": {
+        "realization": "api/controllers/AircraftController.setState",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "place/create": {
+        "realization": "api/controllers/PlaceController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "place/delete": {
+        "realization": "api/controllers/PlaceController.delete",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "place/get": {
+        "realization": "api/controllers/PlaceController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "personalPilotCard/create": {
+        "realization": "api/controllers/PersonalPilotCardController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "personalPilotCard/get": {
+        "realization": "api/controllers/PersonalPilotCardController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "personalPilotCard/delete": {
+        "realization": "api/controllers/PersonalPilotCardController.delete",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }

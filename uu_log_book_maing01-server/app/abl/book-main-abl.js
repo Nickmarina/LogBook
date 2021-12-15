@@ -16,17 +16,18 @@ const WARNINGS = {
 
 const logger = LoggerFactory.get("BookMainAbl");
 
+
 class BookMainAbl {
   constructor() {
     this.validator = Validator.load();
+    this.dao = DaoFactory.getDao("logBook");
   }
 
-  async init(uri, dtoIn, session) {
+  async init(uri, dtoIn, session, uuAppErrorMap) {
     const awid = uri.getAwid();
     // HDS 1
     let validationResult = this.validator.validate("initDtoInType", dtoIn);
-    // A1, A2
-    let uuAppErrorMap = ValidationHelper.processValidationResult(
+    uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
       validationResult,
       WARNINGS.initUnsupportedKeys.code,
@@ -34,16 +35,16 @@ class BookMainAbl {
     );
 
     // HDS 2
-    const schemas = ["bookMain"];
+    const schemas = ["logBook", "place", "aircraft", "personalPilotCard ","logBookEntry"];
     let schemaCreateResults = schemas.map(async (schema) => {
       try {
         return await DaoFactory.getDao(schema).createSchema();
       } catch (e) {
-        // A3
         throw new Errors.Init.SchemaDaoCreateSchemaFailed({ uuAppErrorMap }, { schema }, e);
       }
     });
     await Promise.all(schemaCreateResults);
+
 
     if (dtoIn.uuBtLocationUri) {
       const baseUri = uri.getBaseUri();
@@ -62,7 +63,6 @@ class BookMainAbl {
       const appClientToken = await AppClientTokenService.createToken(uri, uuBtBaseUri);
       const callOpts = AppClientTokenService.setToken({ session }, appClientToken);
 
-      // TODO HDS
       let awscId;
       try {
         const awscDtoOut = await AppClient.post(awscCreateUri, createAwscDtoIn, callOpts);
@@ -87,29 +87,38 @@ class BookMainAbl {
         session
       );
     }
+    
+        // HDS  3
+        const {uuAppProfileAuthorities, ...restDtoIn} = dtoIn;
 
-    // HDS 3
-    if (dtoIn.uuAppProfileAuthorities) {
-      try {
-        await Profile.set(awid, "Authorities", dtoIn.uuAppProfileAuthorities);
-      } catch (e) {
-        if (e instanceof UuAppWorkspaceError) {
-          // A4
-          throw new Errors.Init.SysSetProfileFailed({ uuAppErrorMap }, { role: dtoIn.uuAppProfileAuthorities }, e);
+        if (uuAppProfileAuthorities) {
+          try {
+            await Profile.set(awid, "Authorities", uuAppProfileAuthorities);
+          } catch (e) {
+            if (e instanceof UuAppWorkspaceError) {
+              throw new Errors.Init.SysSetProfileFailed({ uuAppErrorMap }, { role: uuAppProfileAuthorities }, e);
+            }
+            throw e;
+          }
         }
-        throw e;
+
+      // HDS 4
+
+      const uuObject ={ ...restDtoIn, state: "active", awid};
+
+      let uuLogBook = null;
+          
+      try{
+          uuLogBook= await this.dao.create(uuObject)
+      }catch (e){
+          throw new Errors.Init.LogBookDaoCreateFailed({uuAppErrorMap}, e)
       }
-    }
-
-    // HDS 4 - HDS N
-    // TODO Implement according to application needs...
-
-    // HDS N+1
-    const workspace = UuAppWorkspace.get(awid);
+    
+  
 
     return {
-      ...workspace,
-      uuAppErrorMap: uuAppErrorMap,
+      ...uuLogBook,
+      uuAppErrorMap
     };
   }
 }
