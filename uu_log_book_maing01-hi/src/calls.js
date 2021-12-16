@@ -38,6 +38,45 @@ let Calls = {
     return await Calls.getWorkspace();
   },
 
+  logBookEntryList(dtoInData) {
+    let commandUri = Calls.getCommandUri("logBookEntry/list");
+    return Calls.call("get", commandUri, dtoInData);
+  },
+
+  logBookEntryListByPilot(dtoInData) {
+    let commandUri = Calls.getCommandUri("logBookEntry/listByPilot");
+    return Calls.call("get", commandUri, dtoInData);
+  },
+
+  logBookEntryCreate(dtoInData) {
+    let commandUri = Calls.getCommandUri("logBookEntry/create");
+    return Calls.call("post", commandUri, dtoInData);
+  },
+
+  logBookEntryGet(dtoInData) {
+    let commandUri = Calls.getCommandUri("logBookEntry/get");
+    return Calls.call("get", commandUri, dtoInData);
+  },
+
+  logBookEntryDelete(dtoInData) {
+    let commandUri = Calls.getCommandUri("logBookEntry/delete");
+    return Calls.call("post", commandUri, dtoInData);
+  },
+
+  logBookEntryUpdate(dtoInData) {
+    let commandUri = Calls.getCommandUri("logBookEntry/update");
+    return Calls.call("post", commandUri, dtoInData);
+  },
+  aircraftList(dtoInData) {
+    let commandUri = Calls.getCommandUri("aircraft/list");
+    return Calls.call("get", commandUri, dtoInData);
+  },
+
+  placeList(dtoInData) {
+    let commandUri = Calls.getCommandUri("place/list");
+    return Calls.call("get", commandUri, dtoInData);
+  },
+
   /*
   For calling command on specific server, in case of developing client site with already deployed
   server in uuCloud etc. You can specify url of this application (or part of url) in development

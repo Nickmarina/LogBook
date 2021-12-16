@@ -38,7 +38,7 @@ export const Left = createVisualComponent({
         logoProps={{
           backgroundColor: UU5.Environment.colors.blue.c700,
           backgroundColorTo: UU5.Environment.colors.blue.c500,
-          title: "logBook",
+          title: "uuLogBook",
           companyLogo: Plus4U5.Environment.basePath + "assets/img/unicorn-logo.svg",
           generation: "1",
         }}
@@ -48,7 +48,12 @@ export const Left = createVisualComponent({
         <Plus4U5.App.MenuTree
           borderBottom
           // NOTE Item "id" equals to useCase so that item gets automatically selected when route changes (see spa-autheticated.js).
-          items={[{ id: "home", href: "home", content: <UU5.Bricks.Lsi lsi={Lsi.left.home} /> }]}
+          items={[
+            { id: "home", href: "home", content: <UU5.Bricks.Lsi lsi={Lsi.left.home} /> },
+            { id: "entriesList", href: "entriesList", content: <UU5.Bricks.Lsi lsi={Lsi.left.entriesList} /> },
+            { id: "aircrafts", href: "aircrafts", content: <UU5.Bricks.Lsi lsi={Lsi.left.aircrafts} /> },
+          ]}
+
         />
       </Plus4U5.App.Left>
     );
