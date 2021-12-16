@@ -43,7 +43,7 @@ class AircraftAbl {
       );
     }
     // HDS 2
-    const validationResult = this.validator.validate("aircraftListDtoInType", dtoIn);
+    const validationResult = this.validator.validate("aircraftSetStateDtoInType", dtoIn);
     uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
       validationResult,
@@ -54,12 +54,12 @@ class AircraftAbl {
     //  HDS 3
     const aircraft = await this.dao.get(awid, dtoIn.id);
     if (!aircraft) {
-      throw new Errors.SetFinalState.AircraftDoesNotExist({ uuAppErrorMap }, { aircraft: dtoIn.id });
+      throw new Errors.SetState.AircraftDoesNotExist({ uuAppErrorMap }, { aircraft: dtoIn.id });
     }
     //  HDS 4
     let updatedAircraft = null;
     try {
-      updatedAircraft = await this.dao.setState(awid, dtoIn.id, dtoIn.state);
+      updatedAircraft = await this.dao.setState({ awid, id: dtoIn.id, state: dtoIn.state });
     } catch {
       throw new Errors.SetState.AircraftDaoUpdateFailed({ uuAppErrorMap }, { aircraft: dtoIn.id });
     }

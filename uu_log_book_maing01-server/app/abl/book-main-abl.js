@@ -34,7 +34,7 @@ class BookMainAbl {
     );
 
     // HDS 2
-    const schemas = ["logBook", "place", "aircraft", "personalPilotCard ", "logBookEntry"];
+    const schemas = ["logBook", "place", "aircraft", "personalPilotCard", "logBookEntry"];
     let schemaCreateResults = schemas.map(async (schema) => {
       try {
         return await DaoFactory.getDao(schema).createSchema();

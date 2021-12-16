@@ -32,7 +32,7 @@ class LogBookEntryAbl {
 
   async delete(awid, dtoIn, uuAppErrorMap) {
     // HDS 1
-    const logBook = await this.logBook.getByAwid(awid);
+    const logBook = await this.logBookDao.getByAwid(awid);
     if (!logBook) {
       throw new Errors.Delete.LogBookDoesNotExist({ uuAppErrorMap }, { awid });
     }
@@ -67,7 +67,7 @@ class LogBookEntryAbl {
 
   async get(awid, dtoIn, uuAppErrorMap) {
     // HDS 1
-    const logBook = await this.logBook.getByAwid(awid);
+    const logBook = await this.logBookDao.getByAwid(awid);
     if (!logBook) {
       throw new Errors.Get.LogBookDoesNotExist({ uuAppErrorMap }, { awid });
     }
@@ -103,7 +103,7 @@ class LogBookEntryAbl {
 
   async update(awid, dtoIn, uuAppErrorMap) {
     // HDS 1
-    const logBook = await this.logBook.getByAwid(awid);
+    const logBook = await this.logBookDao.getByAwid(awid);
     if (!logBook) {
       throw new Errors.Update.LogBookDoesNotExist({ uuAppErrorMap }, { awid });
     }
@@ -144,7 +144,7 @@ class LogBookEntryAbl {
 
   async list(awid, dtoIn, uuAppErrorMap) {
     // HDS 1
-    const logBook = await this.logBook.getByAwid(awid);
+    const logBook = await this.logBookDao.getByAwid(awid);
     if (!logBook) {
       throw new Errors.List.LogBookDoesNotExist({ uuAppErrorMap }, { awid });
     }
@@ -167,7 +167,7 @@ class LogBookEntryAbl {
 
   async create(awid, dtoIn, uuAppErrorMap) {
     // HDS 1
-    const logBook = await this.logBook.getByAwid(awid);
+    const logBook = await this.logBookDao.getByAwid(awid);
     if (!logBook) {
       throw new Errors.Create.LogBookDoesNotExist({ uuAppErrorMap }, { awid });
     }

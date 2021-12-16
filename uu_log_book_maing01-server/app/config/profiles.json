@@ -19,75 +19,75 @@
       },
       "logBookEntry/create": {
         "sysStateList": ["active"],
-        "profileList": ["Pilots"]
+        "profileList": ["Pilots", "Public"]
       },
       "logBookEntry/list": {
         "sysStateList": ["active"],
-        "profileList": ["Operators"]
+        "profileList": ["Operators", "Public"]
       },
       "logBookEntry/listByPilot": {
         "sysStateList": ["active"],
-        "profileList": ["Pilots"]
+        "profileList": ["Pilots", "Public"]
       },
       "logBookEntry/update": {
         "sysStateList": ["active"],
-        "profileList": ["Operators","Pilots"]
+        "profileList": ["Operators","Pilots", "Public"]
       },
       "logBookEntry/get": {
         "sysStateList": ["active"],
-        "profileList": ["Operators","Pilots"]
+        "profileList": ["Operators","Pilots", "Public"]
       },
       "LogBookEntry/delete": {
         "sysStateList": ["active"],
-        "profileList": ["Pilots"]
+        "profileList": ["Pilots", "Public"]
       },
       "aircraft/create": {
         "sysStateList": ["active"],
-        "profileList": ["Operators"]
+        "profileList": ["Operators", "Public"]
       },
       "aircraft/get": {
         "sysStateList": ["active"],
-        "profileList": ["Operators","Pilots"]
+        "profileList": ["Operators","Pilots", "Public"]
       },
       "aircraft/delete": {
         "sysStateList": ["active"],
-        "profileList": ["Operators"]
+        "profileList": ["Operators", "Public"]
       },
       "aircraft/list": {
         "sysStateList": ["active"],
-        "profileList": ["Operators","Pilots"]
+        "profileList": ["Operators","Pilots", "Public"]
       },
       "aircraft/setState": {
         "sysStateList": ["active"],
-        "profileList": ["Operators"]
+        "profileList": ["Operators", "Public"]
       },
       "place/create": {
         "sysStateList": ["active"],
-        "profileList": ["Operators"]
+        "profileList": ["Operators", "Public"]
       },
       "place/delete": {
         "sysStateList": ["active"],
-        "profileList": ["Operators"]
+        "profileList": ["Operators", "Public"]
       },
       "place/get": {
         "sysStateList": ["active"],
-        "profileList": ["Operators","Pilots"]
-      },
-      "personalPilotCard/create": {
-        "sysStateList": ["active"],
-        "profileList": ["Operators"]
-      },
-      "personalPilotCard/get": {
-        "sysStateList": ["active"],
-        "profileList": ["Operators","Pilots"]
-      },
-      "personalPilotCard/delete": {
-        "sysStateList": ["active"],
-        "profileList": ["Operators"]
+        "profileList": ["Operators","Pilots", "Public"]
       },
       "place/list": {
         "sysStateList": ["active"],
         "profileList": ["Public"]
+      },
+      "personalPilotCard/create": {
+        "sysStateList": ["active"],
+        "profileList": ["Operators", "Public"]
+      },
+      "personalPilotCard/get": {
+        "sysStateList": ["active"],
+        "profileList": ["Operators","Pilots", "Public"]
+      },
+      "personalPilotCard/delete": {
+        "sysStateList": ["active"],
+        "profileList": ["Operators", "Public"]
       }
     }
   }

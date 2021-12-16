@@ -37,7 +37,7 @@ class PlaceAbl {
       );
     }
     // HDS 2
-    const validationResult = this.validator.validate("placeGetDtoInType", dtoIn);
+    const validationResult = this.validator.validate("placeListDtoInType", dtoIn);
     uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
       validationResult,

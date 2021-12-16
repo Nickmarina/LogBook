@@ -13,7 +13,7 @@ class BookMainMongo extends UuObjectDao {
 
   async getByAwid(awid) {
     let filter = {
-      awid
+      awid,
     };
     return await super.findOne(filter);
   }

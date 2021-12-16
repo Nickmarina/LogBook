@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 const pilotCardCreateDtoInType = shape({
-    name: string(200).isRequired(),
+    name: string().isRequired(),
     desc: uu5String(16000),
   })
 

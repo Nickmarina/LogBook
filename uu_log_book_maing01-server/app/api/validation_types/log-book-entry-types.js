@@ -20,6 +20,7 @@ const logBookEntryListDtoInType = shape({
     })
 });
 
+
 const logBookEntryListByPilotDtoInType = shape({
     sortBy: (["regNum", "departureDate"]),
     order: oneOf(["asc", "desc"]),
@@ -47,7 +48,6 @@ const logBookEntryGetDtoInType = shape({
 
 const logBookEntryDeleteDtoInType = shape({
     id: id().isRequired(),
-
 });
 
 

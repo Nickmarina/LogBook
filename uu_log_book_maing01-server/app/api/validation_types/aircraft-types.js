@@ -8,11 +8,12 @@ const aircraftCreateDtoInType = shape({
 
 
 const aircraftListDtoInType = shape({
-    id: id().isRequired(),
-    name: string(200),
-    desc: uu5String(16000),
-    state: oneOf(["open","closed","tested"]),
-    image: uri()
+    sortBy: (["regNum"]),
+    order: oneOf(["asc", "desc"]),
+    pageInfo: shape({
+      pageIndex: integer(),
+      pageSize: integer()
+    })
 });
 
 
@@ -20,8 +21,6 @@ const aircraftSetStateDtoInType = shape({
     id: id().isRequired(),
     state: oneOf(["open","closed","tested"]).isRequired(),
 })
-
-// for setState
 
 const aircraftGetDtoInType = shape({
     id: id().isRequired("regNum"),

@@ -3,8 +3,8 @@ const { UuObjectDao } = require("uu_appg01_server").ObjectStore;
 
 class PersonalPilotCardMongo extends UuObjectDao {
   async createSchema() {
-    await super.createIndex({ awid: 1, uuIdentity: 1 }, { unique: true });
-    await super.createIndex({ awid: 1, id: 1 }, { unique: true });
+    await super.createIndex({ awid: 1, uuIdentity: 1 })
+    await super.createIndex({ awid: 1, id: 1 })
   }
 
   async create(uuObject) {
@@ -46,5 +46,6 @@ class PersonalPilotCardMongo extends UuObjectDao {
     return await super.deleteOne(filter);
   }
 }
+
 
 module.exports = PersonalPilotCardMongo;
