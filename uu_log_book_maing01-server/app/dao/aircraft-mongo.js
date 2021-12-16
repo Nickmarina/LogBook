@@ -35,10 +35,10 @@ class AircraftMongo extends UuObjectDao {
   }
 
   async list(awid, sortBy, order, pageInfo) {
-    let sort = null;
-    order === "asc" && sortBy === "regNum" ? (sort = { regNum: 1 }) : (sort = { regNum: -1 });
+    // let sort = null;
+    // order === "asc" && sortBy === "regNum" ? (sort = { regNum: 1 }) : (sort = { regNum: -1 });
 
-    return await super.find({ awid }, pageInfo, sort);
+    return await super.find({ awid }, pageInfo);
   }
 
   async getByRegNum(awid, regNum) {

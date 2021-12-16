@@ -8,7 +8,7 @@ const aircraftCreateDtoInType = shape({
 
 
 const aircraftListDtoInType = shape({
-    sortBy: (["regNum"]),
+    sortBy: oneOf(["regNum"]),
     order: oneOf(["asc", "desc"]),
     pageInfo: shape({
       pageIndex: integer(),

@@ -81,10 +81,10 @@ class AircraftAbl {
     if (!logBook) {
       throw new Errors.List.LogBookDoesNotExist({ uuAppErrorMap }, { awid });
     }
-    if (logBook.state !== "underConstruction" && logBook.state !== "active") {
+    if (logBook.state !== "active") {
       throw new Errors.List.LogBookIsNotInCorrectState(
         { uuAppErrorMap },
-        { awid, currentState: logBook.state, expectedState: ["active", "underConstruction"] }
+        { awid, currentState: logBook.state, expectedState: "active" }
       );
     }
 
