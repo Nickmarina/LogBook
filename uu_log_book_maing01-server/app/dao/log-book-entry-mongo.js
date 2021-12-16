@@ -38,9 +38,32 @@ class LogBookEntry extends UuObjectDao {
     return await super.find({ awid }, pageInfo);
   }
 
-  //  listByRegNum (awid, RegNum, sortBy, order, pageInfo) -> {itemList:[uuObject], pageInfo:{}}
-  // listByRegNumAndUuIdentity (awid, uuIdentity, RegNum, sortBy, order, pageInfo) -> {itemList:[uuObject], pageInfo:{}}
-  // listByUuIdentity (awid, uuIdentity, sortBy, order, pageInfo) -> {itemList:[uuObject], pageInfo:{}}
+  async listByRegNum(awid, RegNum, sortBy, order, pageInfo) {
+    const filter = {
+      awid,
+      RegNum,
+    };
+    return await super.find(filter, pageInfo);
+  }
+
+  async listByRegNumAndUuIdentity(awid, uuIdentity, RegNum, sortBy, order, pageInfo) {
+    const filter = {
+      awid,
+      uuIdentity,
+      RegNum,
+      order,
+    };
+    return await super.find(filter, pageInfo);
+  }
+
+  async listByUuIdentity(awid, uuIdentity, sortBy, order, pageInfo) {
+    const filter = {
+      awid,
+      uuIdentity,
+      order,
+    };
+    return await super.find(filter, pageInfo);
+  }
 }
 
 module.exports = LogBookEntry;

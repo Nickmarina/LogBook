@@ -11,7 +11,7 @@ const logBookEntryCreateDtoInType = shape({
 });
 
 const logBookEntryListDtoInType = shape({
-    sortBy: (["regNum", "departureDate"]),
+    sortBy:oneOf(["regNum", "departureDate"]),
     order: oneOf(["asc", "desc"]),
     regNum: string(6),
     pageInfo: shape({
@@ -20,9 +20,8 @@ const logBookEntryListDtoInType = shape({
     })
 });
 
-
 const logBookEntryListByPilotDtoInType = shape({
-    sortBy: (["regNum", "departureDate"]),
+    sortBy: oneOf(["regNum", "departureDate"]),
     order: oneOf(["asc", "desc"]),
     regNum: string(6),
     pageInfo: shape({

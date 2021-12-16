@@ -140,9 +140,7 @@ class LogBookEntryAbl {
     };
   }
 
-  async listByPilot(awid, dtoIn, uuAppErrorMap) {}
-
-  async list(awid, dtoIn, uuAppErrorMap) {
+  async listByPilot(awid, dtoIn, uuAppErrorMap) {
     // HDS 1
     const logBook = await this.logBookDao.getByAwid(awid);
     if (!logBook) {
@@ -156,13 +154,86 @@ class LogBookEntryAbl {
     }
 
     // HDS 2
-    const validationResult = this.validator.validate("logBookEntryListDtoInType", dtoIn);
+    const validationResult = this.validator.validate("logBookEntryListByPilotDtoInType", dtoIn);
     uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
       validationResult,
       WARNINGS.listUnsupportedKeys.code,
       Errors.List.InvalidDtoIn
     );
+
+    let uuObject = { ...dtoIn, awid };
+    if (!dtoIn.pageInfo) uuObject.pageInfo = {};
+    if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 10;
+    if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 50;
+    if (!dtoIn.order) uuObject.order = "asc";
+    if (!dtoIn.sortBy) uuObject.sortBy = "departureDate";
+
+    // HDS 3
+    let list = null;
+
+    const { uuIdentity, sortBy, order, pageInfo, regNum } = uuObject;
+
+    !dtoIn.regNum
+      ? (list = await this.dao.listByUuIdentity(awid, uuIdentity, sortBy, order, pageInfo))
+      : (list = await this.dao.listByRegNumAndUuIdentity(awid, uuIdentity, regNum, sortBy, order, pageInfo));
+
+    // HDS 4
+    return {
+      ...list,
+      uuAppErrorMap,
+    };
+  }
+
+  async list(awid, dtoIn, uuAppErrorMap) {
+    // HDS 1
+    const logBook = await this.logBookDao.getByAwid(awid);
+    if (!logBook) {
+      throw new Errors.List.LogBookDoesNotExist({ uuAppErrorMap }, { awid });
+    }
+    if (logBook.state !== "active") {
+      throw new Errors.List.LogBookIsNotInCorrectState(
+        { uuAppErrorMap },
+        { awid, currentState: logBook.state, expectedState: "active" }
+      );
+    }
+    // HDS 2
+    const validationResult = this.validator.validate("logBookEntryListDtoInType", dtoIn);
+    uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.unsupportedKeys.code,
+      Errors.List.InvalidDtoIn
+    );
+
+    let uuObject = { ...dtoIn, awid };
+    if (!dtoIn.pageInfo) uuObject.pageInfo = {};
+    if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 10;
+    if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 50;
+    if (!dtoIn.order) uuObject.order = "asc";
+    if (!dtoIn.sortBy) uuObject.sortBy = "departureDate";
+
+    // HDS 3
+
+    let list = null;
+
+    if (!dtoIn.regNum) {
+      list = await this.dao.list(uuObject.awid, uuObject.sortBy, uuObject.order, uuObject.pageInfo);
+    } else {
+      list = await this.dao.listByRegNum(
+        uuObject.awid,
+        uuObject.RegNum,
+        uuObject.sortBy,
+        uuObject.order,
+        uuObject.pageInfo
+      );
+    }
+
+    // HDS 4
+    return {
+      ...list,
+      uuAppErrorMap,
+    };
   }
 
   async create(awid, dtoIn, uuAppErrorMap) {

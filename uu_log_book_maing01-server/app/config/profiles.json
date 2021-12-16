@@ -37,7 +37,7 @@
         "sysStateList": ["active"],
         "profileList": ["Operators","Pilots", "Public"]
       },
-      "LogBookEntry/delete": {
+      "logBookEntry/delete": {
         "sysStateList": ["active"],
         "profileList": ["Pilots", "Public"]
       },

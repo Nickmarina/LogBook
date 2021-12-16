@@ -41,7 +41,7 @@
         "httpMethod": "GET",
         "type": "CMD"
       },
-      "LogBookEntry/delete": {
+      "logBookEntry/delete": {
         "realization": "api/controllers/LogBookEntryController.delete",
         "httpMethod": "POST",
         "type": "CMD"
