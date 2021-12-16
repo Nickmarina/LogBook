@@ -35,6 +35,14 @@ const Create = {
       this.message = "Create aircraft by DAO create failed.";
     }
   },
+
+  AircraftImageDaoCreateFailed: class extends BookMainUseCaseError{
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}aircraftImageDaoCreateFailed`;
+      this.message = "Create of Aircraft Image by Dao create failed.";
+    }
+  },
 };
 
 const Get = {
@@ -212,6 +220,24 @@ const SetState = {
     }
   },
 };
+const GetImageData = {
+  UC_CODE: `${AIRCRAFT_ERROR_PREFIX}getImageData/`,
+
+  InvalidDtoIn: class extends BookMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${GetImageData.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+  AircraftImageDoesNotExist: class extends BookMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${GetImageData.UC_CODE}aircraftImageDoesNotExist`;
+      this.message = "Object artifact image does not exist.";
+    }
+  },
+};
 
 module.exports = {
   SetState,
@@ -219,4 +245,5 @@ module.exports = {
   Delete,
   Get,
   Create,
+  GetImageData,
 };

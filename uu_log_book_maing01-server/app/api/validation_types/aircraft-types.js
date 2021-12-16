@@ -31,3 +31,8 @@ const aircraftGetDtoInType = shape({
     id: id().isRequired("regNum"),
     regNum: string(6).isRequired("id")
 });
+
+const aircraftGetImageDataDtoInType = shape ({
+    image: code().isRequired(),
+    contentDisposition: oneOf(["inline", "attachment"])
+  })

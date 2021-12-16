@@ -1,9 +1,9 @@
 "use strict";
-const Path = require("path");
 const { Validator } = require("uu_appg01_server").Validation;
 const { DaoFactory } = require("uu_appg01_server").ObjectStore;
 const { ValidationHelper } = require("uu_appg01_server").AppServer;
 const Errors = require("../api/errors/aircraft-error.js");
+const { BinaryStoreError } = require("uu_appg01_binarystore");
 
 const WARNINGS = {
   unsupportedKeys: {
@@ -21,12 +21,16 @@ const WARNINGS = {
   setStateUnsupportedKeys: {
     code: `${Errors.Create.UC_CODE}unsupportedKeys`,
   },
+  getImageDataUnsupportedKeys: {
+    code: `${Errors.GetImageData.UC_CODE}unsupportedKeys`,
+  },
 };
 
 class AircraftAbl {
   constructor() {
     this.validator = Validator.load();
     this.logBookDao = DaoFactory.getDao("logBook");
+    this.imageDao = DaoFactory.getDao("aircraftImage");
     this.dao = DaoFactory.getDao("aircraft");
   }
 
@@ -71,7 +75,45 @@ class AircraftAbl {
     };
   }
 
-  async list(awid, dtoIn, uuAppErrorMap) {}
+  async list(awid, dtoIn, uuAppErrorMap) {
+    // HDS 1
+    const logBook = await this.logBookDao.getByAwid(awid);
+    if (!logBook) {
+      throw new Errors.List.LogBookDoesNotExist({ uuAppErrorMap }, { awid });
+    }
+    if (logBook.state !== "underConstruction" && logBook.state !== "active") {
+      throw new Errors.List.LogBookIsNotInCorrectState(
+        { uuAppErrorMap },
+        { awid, currentState: logBook.state, expectedState: ["active", "underConstruction"] }
+      );
+    }
+
+    // HDS 2
+    const validationResult = this.validator.validate("aircraftListDtoInType", dtoIn);
+    uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.listUnsupportedKeys.code,
+      Errors.List.InvalidDtoIn
+    );
+
+    let uuObject = { ...dtoIn, awid };
+    if (!dtoIn.pageInfo) uuObject.pageInfo = {};
+    if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 50;
+    if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 1000;
+    if (!dtoIn.order) uuObject.order = "asc";
+    if (!dtoIn.sortBy) uuObject.sortBy = "regNum";
+
+    // HDS 3
+
+    const list = await this.dao.list(uuObject.awid, uuObject.sortBy, uuObject.order, uuObject.pageInfo);
+    // HDS 4
+    return {
+      ...list,
+      pageInfo: uuObject.pageInfo,
+      uuAppErrorMap,
+    };
+  }
 
   async delete(awid, dtoIn, uuAppErrorMap) {
     // HDS 1
@@ -110,16 +152,16 @@ class AircraftAbl {
       }
     }
     // HDS 4
-    // if(aircraft.image){
-
-    // }
+    if (aircraft.image) {
+      await this.imageDao.deleteByCode(awid, aircraft.image);
+    }
     // HDS 5
     if (aircraft.state === "active") {
       throw new Errors.Delete.AircraftInActiveState({ uuAppErrorMap }, { state: aircraft.state });
     }
     // HDS 6
     try {
-      await this.dao.delete(awid, dtoIn.id);
+      await this.dao.delete(awid, aircraft.id);
     } catch (e) {
       throw new Errors.Delete.AircraftDaoDeleteFailed({ uuAppErrorMap }, { aircraft: dtoIn.id }, e);
     }
@@ -195,7 +237,21 @@ class AircraftAbl {
     );
 
     // HDS 3
+    let aircraftImage = null;
+    if (dtoIn.image) {
+      try {
+        aircraftImage = await this.imageDao.create({ awid }, dtoIn.image);
+      } catch (e) {
+        if (e instanceof BinaryStoreError) {
+          throw new Errors.Create.AircraftImageDaoCreateFailed({ uuAppErrorMap }, e);
+        }
+        throw e;
+      }
+      dtoIn.image = aircraftImage.code;
+    }
+
     const uuObject = { ...dtoIn, awid };
+    if (!dtoIn.state) uuObject.state === "active";
 
     let aircraft = null;
     try {
@@ -204,11 +260,37 @@ class AircraftAbl {
       throw new Errors.Create.AircraftDaoCreateFailed({ uuAppErrorMap }, err);
     }
 
-    // HDS 5
+    // HDS 4
     return {
       ...aircraft,
       uuAppErrorMap,
     };
+  }
+
+  async getImageData(awid, dtoIn) {
+    // hds 1
+    let validationResult = this.validator.validate("aircraftGetImageDataDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.getImageDataUnsupportedKeys.code,
+      Errors.GetImageData.InvalidDtoIn
+    );
+
+    // hds 2
+    let dtoOut;
+    try {
+      dtoOut = await this.imageDao.getDataByCode(awid, dtoIn.image);
+    } catch (e) {
+      if (e.code === "uu-app-binarystore/objectNotFound") {
+        throw new Errors.GetImageData.AircraftImageDoesNotExist({ uuAppErrorMap }, { image: dtoIn.image });
+      }
+      throw e;
+    }
+
+    // hds 3
+    dtoOut.uuAppErrorMap = uuAppErrorMap;
+    return dtoOut;
   }
 }
 

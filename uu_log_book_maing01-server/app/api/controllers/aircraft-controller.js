@@ -21,6 +21,12 @@ class AircraftController {
   create(ucEnv) {
     return AircraftAbl.create(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
   }
+
+  async getImageData(ucEnv) {
+    let dtoIn = ucEnv.getDtoIn();
+    let dtoOut = await AircraftAbl.getImageData(ucEnv.getUri().getAwid(), dtoIn);
+    return ucEnv.setBinaryDtoOut(dtoOut, dtoIn.contentDisposition);
+  }
 }
 
 module.exports = new AircraftController();

@@ -71,6 +71,11 @@
         "httpMethod": "POST",
         "type": "CMD"
       },
+      "aircraft/getImageData": {
+        "realization": "api/controllers/AircraftController.getImageData",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
       "place/create": {
         "realization": "api/controllers/PlaceController.create",
         "httpMethod": "POST",

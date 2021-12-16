@@ -1,4 +1,5 @@
 "use strict";
+
 const { UuObjectDao } = require("uu_appg01_server").ObjectStore;
 
 class LogBookEntry extends UuObjectDao {
@@ -35,34 +36,53 @@ class LogBookEntry extends UuObjectDao {
   }
 
   async list(awid, sortBy, order, pageInfo) {
-    return await super.find({ awid }, pageInfo);
+    let sort = null;
+    if (sortBy === "departureDate") {
+      order === "asc" ? (sort = { departureDate: 1 }) : (sort = { departureDate: -1 });
+    } else {
+      order === "asc" ? (sort = { regNum: 1 }) : (sort = { regNum: -1 });
+    }
+    return await super.find({ awid }, pageInfo, sort);
   }
 
   async listByRegNum(awid, RegNum, sortBy, order, pageInfo) {
+    let sort = null;
+    if (sortBy === "departureDate") {
+      order === "asc" ? (sort = { departureDate: 1 }) : (sort = { departureDate: -1 });
+    } else {
+      order === "asc" ? (sort = { regNum: 1 }) : (sort = { regNum: -1 });
+    }
     const filter = {
       awid,
       RegNum,
     };
-    return await super.find(filter, pageInfo);
+    return await super.find(filter, pageInfo, sort);
   }
 
   async listByRegNumAndUuIdentity(awid, uuIdentity, RegNum, sortBy, order, pageInfo) {
+    let sort = null;
+    if (sortBy === "departureDate") {
+      order === "asc" ? (sort = { departureDate: 1 }) : (sort = { departureDate: -1 });
+    } else {
+      order === "asc" ? (sort = { regNum: 1 }) : (sort = { regNum: -1 });
+    }
     const filter = {
       awid,
       uuIdentity,
       RegNum,
-      order,
     };
-    return await super.find(filter, pageInfo);
+    return await super.find(filter, pageInfo, sort);
   }
 
   async listByUuIdentity(awid, uuIdentity, sortBy, order, pageInfo) {
-    const filter = {
-      awid,
-      uuIdentity,
-      order,
-    };
-    return await super.find(filter, pageInfo);
+    let sort = null;
+    if (sortBy === "departureDate") {
+      order === "asc" ? (sort = { departureDate: 1 }) : (sort = { departureDate: -1 });
+    } else {
+      order === "asc" ? (sort = { regNum: 1 }) : (sort = { regNum: -1 });
+    }
+    const filter = { awid, uuIdentity };
+    return await super.find(filter, pageInfo, sort);
   }
 }
 

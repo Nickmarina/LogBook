@@ -61,6 +61,10 @@
         "sysStateList": ["active"],
         "profileList": ["Operators", "Public"]
       },
+      "aircraft/getImageData": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
+      },
       "place/create": {
         "sysStateList": ["active"],
         "profileList": ["Operators", "Public"]
