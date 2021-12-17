@@ -72,9 +72,9 @@ let Calls = {
     return Calls.call("get", commandUri, dtoInData);
   },
 
-  placeList(dtoInData) {
+  placeList() {
     let commandUri = Calls.getCommandUri("place/list");
-    return Calls.call("get", commandUri, dtoInData);
+    return Calls.call("get", commandUri, {});
   },
 
   /*

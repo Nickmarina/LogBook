@@ -75,6 +75,46 @@ class AircraftAbl {
     };
   }
 
+  // async list(awid, dtoIn, uuAppErrorMap) {
+  //   // HDS 1
+  //   const logBook = await this.logBookDao.getByAwid(awid);
+  //   if (!logBook) {
+  //     throw new Errors.List.LogBookDoesNotExist({ uuAppErrorMap }, { awid });
+  //   }
+  //   if (logBook.state !== "active") {
+  //     throw new Errors.List.LogBookIsNotInCorrectState(
+  //       { uuAppErrorMap },
+  //       { awid, currentState: logBook.state, expectedState: "active" }
+  //     );
+  //   }
+
+  //   // HDS 2
+  //   const validationResult = this.validator.validate("aircraftListDtoInType", dtoIn);
+  //   uuAppErrorMap = ValidationHelper.processValidationResult(
+  //     dtoIn,
+  //     validationResult,
+  //     WARNINGS.listUnsupportedKeys.code,
+  //     Errors.List.InvalidDtoIn
+  //   );
+
+  //   let uuObject = { ...dtoIn, awid };
+  //   if (!dtoIn.pageInfo) uuObject.pageInfo = {};
+  //   if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 50;
+  //   if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 1000;
+  //   if (!dtoIn.order) uuObject.order = "asc";
+  //   if (!dtoIn.sortBy) uuObject.sortBy = "regNum";
+
+  //   // HDS 3
+
+  //   const list = await this.dao.list(uuObject.awid, uuObject.sortBy, uuObject.order, uuObject.pageInfo);
+  //   // HDS 4
+  //   return {
+  //     ...list,
+  //     pageInfo: uuObject.pageInfo,
+  //     uuAppErrorMap,
+  //   };
+  // }
+
   async list(awid, dtoIn, uuAppErrorMap) {
     // HDS 1
     const logBook = await this.logBookDao.getByAwid(awid);
@@ -84,36 +124,36 @@ class AircraftAbl {
     if (logBook.state !== "active") {
       throw new Errors.List.LogBookIsNotInCorrectState(
         { uuAppErrorMap },
-        { awid, currentState: logBook.state, expectedState: "active" }
+        { awid, state: logBook.state, expectedState: "active" }
       );
     }
-
     // HDS 2
     const validationResult = this.validator.validate("aircraftListDtoInType", dtoIn);
     uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
       validationResult,
-      WARNINGS.listUnsupportedKeys.code,
+      WARNINGS.unsupportedKeys.code,
       Errors.List.InvalidDtoIn
     );
 
+    //  HDS 3
     let uuObject = { ...dtoIn, awid };
     if (!dtoIn.pageInfo) uuObject.pageInfo = {};
-    if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 50;
+    if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 0;
     if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 1000;
-    if (!dtoIn.order) uuObject.order = "asc";
-    if (!dtoIn.sortBy) uuObject.sortBy = "regNum";
 
-    // HDS 3
-
-    const list = await this.dao.list(uuObject.awid, uuObject.sortBy, uuObject.order, uuObject.pageInfo);
     // HDS 4
+    const list = await this.dao.list(uuObject.awid, uuObject.sortBy, uuObject.order, uuObject.pageInfo);
+    // if (!list) throw new Errors.List.AircraftListDaoCreateFailed({ uuAppErrorMap }, { awid });
+
+    // HDS 5
     return {
       ...list,
       pageInfo: uuObject.pageInfo,
       uuAppErrorMap,
     };
   }
+
 
   async delete(awid, dtoIn, uuAppErrorMap) {
     // HDS 1

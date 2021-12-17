@@ -38,7 +38,7 @@ export const AircraftsList = createVisualComponent({
     //@@viewOn:render
 
     return (
-      <div> Hello {JSON.stringify(data)}</div>
+      <div>{JSON.stringify(data)}</div>
     );
     //@@viewOff:render
   },

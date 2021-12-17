@@ -185,6 +185,56 @@ class LogBookEntryAbl {
     };
   }
 
+  // async list(awid, dtoIn, uuAppErrorMap) {
+  //   // HDS 1
+  //   const logBook = await this.logBookDao.getByAwid(awid);
+  //   if (!logBook) {
+  //     throw new Errors.List.LogBookDoesNotExist({ uuAppErrorMap }, { awid });
+  //   }
+  //   if (logBook.state !== "active") {
+  //     throw new Errors.List.LogBookIsNotInCorrectState(
+  //       { uuAppErrorMap },
+  //       { awid, currentState: logBook.state, expectedState: "active" }
+  //     );
+  //   }
+  //   // HDS 2
+  //   const validationResult = this.validator.validate("logBookEntryListDtoInType", dtoIn);
+  //   uuAppErrorMap = ValidationHelper.processValidationResult(
+  //     dtoIn,
+  //     validationResult,
+  //     WARNINGS.unsupportedKeys.code,
+  //     Errors.List.InvalidDtoIn
+  //   );
+
+  //   let uuObject = { ...dtoIn, awid };
+  //   if (!dtoIn.pageInfo) uuObject.pageInfo = {};
+  //   if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 10;
+  //   if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 50;
+  //   if (!dtoIn.order) uuObject.order = "asc";
+  //   if (!dtoIn.sortBy) uuObject.sortBy = "departureDate";
+
+  //   // HDS 3
+
+  //   let list = null;
+
+  //   if (!dtoIn.regNum) {
+  //     list = await this.dao.list(uuObject.awid, uuObject.sortBy, uuObject.order, uuObject.pageInfo);
+  //   } else {
+  //     list = await this.dao.listByRegNum(
+  //       uuObject.awid,
+  //       uuObject.RegNum,
+  //       uuObject.sortBy,
+  //       uuObject.order,
+  //       uuObject.pageInfo
+  //     );
+  //   }
+
+  //   // HDS 4
+  //   return {
+  //     ...list,
+  //     uuAppErrorMap,
+  //   };
+  // }
   async list(awid, dtoIn, uuAppErrorMap) {
     // HDS 1
     const logBook = await this.logBookDao.getByAwid(awid);
@@ -194,7 +244,7 @@ class LogBookEntryAbl {
     if (logBook.state !== "active") {
       throw new Errors.List.LogBookIsNotInCorrectState(
         { uuAppErrorMap },
-        { awid, currentState: logBook.state, expectedState: "active" }
+        { awid, state: logBook.state, expectedState: "active" }
       );
     }
     // HDS 2
@@ -206,35 +256,25 @@ class LogBookEntryAbl {
       Errors.List.InvalidDtoIn
     );
 
+    //  HDS 3
     let uuObject = { ...dtoIn, awid };
     if (!dtoIn.pageInfo) uuObject.pageInfo = {};
-    if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 10;
-    if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 50;
-    if (!dtoIn.order) uuObject.order = "asc";
-    if (!dtoIn.sortBy) uuObject.sortBy = "departureDate";
-
-    // HDS 3
-
-    let list = null;
-
-    if (!dtoIn.regNum) {
-      list = await this.dao.list(uuObject.awid, uuObject.sortBy, uuObject.order, uuObject.pageInfo);
-    } else {
-      list = await this.dao.listByRegNum(
-        uuObject.awid,
-        uuObject.RegNum,
-        uuObject.sortBy,
-        uuObject.order,
-        uuObject.pageInfo
-      );
-    }
+    if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 0;
+    if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 1000;
 
     // HDS 4
+    const list = await this.dao.list(uuObject.awid, uuObject.sortBy, uuObject.order, uuObject.pageInfo);
+    // const list = await this.dao.list(uuObject.awid, uuObject.pageInfo);
+    // if (!list) throw new Errors.List.PlaceListDaoCreateFailed({ uuAppErrorMap }, { awid });
+
+    // HDS 5
     return {
       ...list,
+      pageInfo: uuObject.pageInfo,
       uuAppErrorMap,
     };
   }
+
 
   async create(awid, dtoIn, uuAppErrorMap) {
     // HDS 1

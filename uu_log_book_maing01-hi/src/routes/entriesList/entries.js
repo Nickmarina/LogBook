@@ -6,6 +6,10 @@ import Plus4U5 from "uu_plus4u5g01";
 import "uu_plus4u5g01-bricks";
 
 import Config from "./config/config";
+import EntriesLoader from "./entries-loader";
+import EntriesContext from "./context/entries-context";
+import DataListStateResolver from "../../common/data-list-state-resolver";
+import EntriesList from "./entriesList"
 // import Lsi from "../config/lsi.js";
 //@@viewOff:imports
 
@@ -35,9 +39,19 @@ export const Entries = createVisualComponent({
 
     //@@viewOn:render
 
-    return <div>
-        Entries will be here
-    </div>;
+    return (
+      <EntriesLoader>
+        <EntriesContext.Consumer>
+          {(dataListResult) => {
+            return (
+              <DataListStateResolver dataList={dataListResult}>
+                <EntriesList />
+              </DataListStateResolver>
+            );
+          }}
+        </EntriesContext.Consumer>
+      </EntriesLoader>
+    )
     //@@viewOff:render
   },
 });
