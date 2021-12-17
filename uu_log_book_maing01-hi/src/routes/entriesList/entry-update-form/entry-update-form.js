@@ -25,10 +25,9 @@ const EntryUpdateForm = createVisualComponent({
   //@@viewOff:defaultProps
 
   render(props) {
-    const { data, closeModal, handlerMap } = props;
+    const { data, closeModal } = props;
     const [isLoading] = useState(false);
     const [listOfPlaces, setListOfPlaces] = useState([]);
-
 
     useEffect(() => {
       const fetchData = async () => {
@@ -38,17 +37,19 @@ const EntryUpdateForm = createVisualComponent({
       fetchData();
     }, []);
 
-
     async function handleUpdate(formData) {
       const { values, component } = formData;
+      const newObject = { id: data.id, ...values };
+      console.log(newObject);
 
       component.setPending();
       try {
-        await handlerMap.update(values);
+        await Calls.logBookEntryUpdate(newObject);
         component.getAlertBus().addAlert({
           content: <UU5.Common.Error content={<UU5.Bricks.Lsi lsi={Lsi.saveSuccess} />} />,
           colorSchema: "success",
         });
+        closeModal();
       } catch {
         component.getAlertBus().addAlert({
           content: <UU5.Common.Error content={<UU5.Bricks.Lsi lsi={Lsi.saveError} />} />,
@@ -56,7 +57,6 @@ const EntryUpdateForm = createVisualComponent({
         });
       }
       component.setReady();
-      closeModal();
     }
     const className = Config.Css.css``;
 
@@ -69,27 +69,35 @@ const EntryUpdateForm = createVisualComponent({
       >
         <UU5.Forms.DatePicker
           label="departureDate"
+          name="departureDate"
           valueType="iso"
-          placeholder={UU5.Common.Tools.getDateString(data.departureDate)}
+          value={data.departureDate}
           size="m"
         />
         <UU5.Forms.DatePicker
           label="arrivalDate"
+          name="arrivalDate"
+          value={data.arrivalDate}
           valueType="iso"
-          placeholder={UU5.Common.Tools.getDateString(data.arrivalDate)}
           size="m"
         />
-        <UU5.Forms.Select label="departurePlace" size="m" placeholder={data.departurePlace}>
+        <UU5.Forms.Select name="departurePlace" label="departurePlace" size="m" value={data.departurePlace}>
           {listOfPlaces?.map((place) => (
             <UU5.Forms.Select.Option key={place?.id} value={place?.codeOfPlace} />
           ))}
-        </UU5.Forms.Select >
-        <UU5.Forms.Select label="arrivalPlace" size="m" placeholder={data.arrivalPlace}>
+        </UU5.Forms.Select>
+        <UU5.Forms.Select name="arrivalPlace" label="arrivalPlace" size="m" value={data.arrivalPlace}>
           {listOfPlaces?.map((place) => (
-            <UU5.Forms.Select.Option key={place?.id} value={place?.codeOfPlace}  />
+            <UU5.Forms.Select.Option key={place?.id} value={place?.codeOfPlace} />
           ))}
         </UU5.Forms.Select>
         <UU5.Forms.Text label="regNum" name="regNum" value={data.regNum} />
+        <UU5.Forms.Text
+          label="entryState"
+          name="entryState"
+          value={data?.entryState}
+          placeholder={"APPROVED or DISAPPROVED or IN_PROGRESS"}
+        />
       </UU5.Forms.ContextForm>
     );
   },

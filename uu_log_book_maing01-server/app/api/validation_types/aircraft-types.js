@@ -3,7 +3,7 @@
 const aircraftCreateDtoInType = shape({
     regNum: string(6).isRequired(),
     model: string(100).isRequired(),
-    image: binary()
+    image: binary().isRequired()
 });
 
 

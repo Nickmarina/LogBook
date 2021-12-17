@@ -45,7 +45,7 @@ class LogBookEntry extends UuObjectDao {
     return await super.find({ awid }, pageInfo, sort);
   }
 
-  async listByRegNum(awid, RegNum, sortBy, order, pageInfo) {
+  async listByRegNum(awid, regNum, sortBy, order, pageInfo) {
     let sort = null;
     if (sortBy === "departureDate") {
       order === "asc" ? (sort = { departureDate: 1 }) : (sort = { departureDate: -1 });
@@ -54,7 +54,7 @@ class LogBookEntry extends UuObjectDao {
     }
     const filter = {
       awid,
-      RegNum,
+      regNum,
     };
     return await super.find(filter, pageInfo, sort);
   }

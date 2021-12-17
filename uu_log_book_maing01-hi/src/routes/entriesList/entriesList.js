@@ -32,8 +32,11 @@ export const EntriesList = createVisualComponent({
   //@@viewOff:defaultProps
 
   render(props) {
-    const { data, handlerMap, itemHandlerMap } = useEntries();
+    console.log(props)
+
+      const { data, handlerMap, itemHandlerMap } = useEntries();
     const [open, close, showAlert, getConfirmRef] = useContextModal();
+
     //@@viewOn:private
     //@@viewOff:private
 
@@ -51,14 +54,25 @@ export const EntriesList = createVisualComponent({
     }
     const currentNestingLevel = UU5.Utils.NestingLevel.getNestingLevel(props, STATICS);
 
-    return currentNestingLevel ? (
-      <Uu5Tiles.ControllerProvider data={data}>
-        <Uu5Tiles.Grid tileMinWidth={200} tileMaxWidth={400} tileSpacing={8} rowSpacing={8}>
+    if (props?.data) {
+      return currentNestingLevel ? (
+        <Uu5Tiles.ControllerProvider data={props?.data}>
           <Uu5Tiles.AddButton onClick={handleCreate}>Add new entry</Uu5Tiles.AddButton>
-          <CustomTile data={data} closeModal={close} open ={open}/>
-        </Uu5Tiles.Grid>
-      </Uu5Tiles.ControllerProvider>
-    ) : null;
+          <Uu5Tiles.Grid tileMinWidth={200} tileMaxWidth={400} tileSpacing={8} rowSpacing={8}>
+            <CustomTile closeModal={close} open={open} handlerMap={handlerMap} />
+          </Uu5Tiles.Grid>
+        </Uu5Tiles.ControllerProvider>
+      ) : null;
+    } else {
+      return currentNestingLevel ? (
+        <Uu5Tiles.ControllerProvider data={data}>
+          <Uu5Tiles.AddButton onClick={handleCreate}>Add new entry</Uu5Tiles.AddButton>
+          <Uu5Tiles.Grid tileMinWidth={200} tileMaxWidth={400} tileSpacing={8} rowSpacing={8}>
+            <CustomTile closeModal={close} open={open} handlerMap={handlerMap} />
+          </Uu5Tiles.Grid>
+        </Uu5Tiles.ControllerProvider>
+      ) : null;
+    }
   },
 });
 

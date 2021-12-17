@@ -41,7 +41,7 @@ export const Aircraft = createVisualComponent({
     //@@viewOn:render
 
     return (
-                <AircraftCard params={props.params} />
+      <AircraftCard params={props.params} />
     );
     //@@viewOff:render
   },

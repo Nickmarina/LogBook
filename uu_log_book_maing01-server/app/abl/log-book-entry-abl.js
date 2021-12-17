@@ -130,8 +130,9 @@ class LogBookEntryAbl {
     }
 
     // HDS 4
-    let updatedEntry = null;
     // something else
+    const uuObject = { awid, ...dtoIn };
+    const updatedEntry = await this.dao.update(uuObject);
 
     // HDS 5
     return {
@@ -262,19 +263,27 @@ class LogBookEntryAbl {
     if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 0;
     if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 1000;
 
-    // HDS 4
-    const list = await this.dao.list(uuObject.awid, uuObject.sortBy, uuObject.order, uuObject.pageInfo);
-    // const list = await this.dao.list(uuObject.awid, uuObject.pageInfo);
-    // if (!list) throw new Errors.List.PlaceListDaoCreateFailed({ uuAppErrorMap }, { awid });
+    let list = null;
 
-    // HDS 5
+    if (uuObject.regNum) {
+      list = await this.dao.listByRegNum(
+        uuObject.awid,
+        uuObject.regNum,
+        uuObject.sortBy,
+        uuObject.order,
+        uuObject.pageInf
+      );
+    } else {
+      list = await this.dao.list(uuObject.awid, uuObject.sortBy, uuObject.order, uuObject.pageInfo);
+    }
+
+    // HDS 4
     return {
       ...list,
       pageInfo: uuObject.pageInfo,
       uuAppErrorMap,
     };
   }
-
 
   async create(awid, dtoIn, uuAppErrorMap) {
     // HDS 1

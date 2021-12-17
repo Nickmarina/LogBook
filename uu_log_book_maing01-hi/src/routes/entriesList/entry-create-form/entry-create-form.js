@@ -49,14 +49,16 @@ const EntryCreateForm = createVisualComponent({
           content: <UU5.Common.Error content={<UU5.Bricks.Lsi lsi={Lsi.saveSuccess} />} />,
           colorSchema: "success",
         });
+  
+        closeModal();
       } catch {
+        console.log(values)
         component.getAlertBus().addAlert({
           content: <UU5.Common.Error content={<UU5.Bricks.Lsi lsi={Lsi.saveError} />} />,
           colorSchema: "danger",
         });
       }
-      component.setReady();
-      closeModal();
+      component.setReady();     
     }
     const className = Config.Css.css``;
     return (
@@ -70,22 +72,24 @@ const EntryCreateForm = createVisualComponent({
           label="departureDate"
           valueType="iso"
           placeholder={UU5.Common.Tools.getDateString("1990-11-21", { country: "cs-cz" })}
+          name="departureDate"
           size="m"
           required
         />
         <UU5.Forms.DatePicker
           label="arrivalDate"
           valueType="iso"
+          name="arrivalDate"
           placeholder={UU5.Common.Tools.getDateString("1990-11-21", { country: "cs-cz" })}
           size="m"
           required
         />
-        <UU5.Forms.Select required label="departurePlace" size="m">
+        <UU5.Forms.Select name="departurePlace" required label="departurePlace" size="m">
           {listOfPlaces?.map((place) => (
             <UU5.Forms.Select.Option key={place?.id} value={place?.codeOfPlace} />
           ))}
         </UU5.Forms.Select>
-        <UU5.Forms.Select required label="arrivalPlace" size="m">
+        <UU5.Forms.Select name="arrivalPlace" required label="arrivalPlace" size="m">
           {listOfPlaces?.map((place) => (
             <UU5.Forms.Select.Option key={place?.id} value={place?.codeOfPlace} />
           ))}

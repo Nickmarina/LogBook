@@ -1,11 +1,11 @@
 /* eslint-disable */
 
 const logBookEntryCreateDtoInType = shape({
-    departureDate: datetime().isRequired(),
-    arrivalDate: datetime().isRequired(),
+    departureDate: date().isRequired(),
+    arrivalDate: date().isRequired(),
     departurePlace: string(3).isRequired(),
     arrivalPlace: string(3).isRequired(),
-    coPilotIdentity: uuIdentity(),
+    coPilotIdentity: id(),
     regNum: string(6).isRequired()
   
 });
@@ -32,8 +32,8 @@ const logBookEntryListByPilotDtoInType = shape({
 
 const logBookEntryUpdateDtoInType = shape({
     id: id().isRequired(),
-    departureDate: datetime(),
-    arrivalDate: datetime(),
+    departureDate: date(),
+    arrivalDate: date(),
     departurePlace: string(3),
     arrivalPlace: string(3),
     coPilotIdentity: uuIdentity(),

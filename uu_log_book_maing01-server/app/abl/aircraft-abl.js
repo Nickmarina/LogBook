@@ -142,6 +142,7 @@ class AircraftAbl {
     if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 0;
     if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 1000;
 
+
     // HDS 4
     const list = await this.dao.list(uuObject.awid, uuObject.sortBy, uuObject.order, uuObject.pageInfo);
     // if (!list) throw new Errors.List.AircraftListDaoCreateFailed({ uuAppErrorMap }, { awid });
