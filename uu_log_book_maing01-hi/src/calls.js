@@ -72,6 +72,11 @@ let Calls = {
     return Calls.call("get", commandUri, dtoInData);
   },
 
+  aircraftGet(dtoInData) {
+    let commandUri = Calls.getCommandUri("aircraft/get");
+    return Calls.call("get", commandUri, dtoInData);
+  },
+
   placeList() {
     let commandUri = Calls.getCommandUri("place/list");
     return Calls.call("get", commandUri, {});

@@ -4,6 +4,8 @@ import "uu5g04-bricks";
 import { createVisualComponent } from "uu5g04-hooks";
 import Plus4U5 from "uu_plus4u5g01";
 import "uu_plus4u5g01-bricks";
+import useAircrafts from "../aircraftsList/context/use-aircrafts";
+import AircraftCard from "./aircraft-card";
 
 import Config from "./config/config";
 // import Lsi from "../config/lsi.js";
@@ -18,6 +20,7 @@ const STATICS = {
 const CLASS_NAMES = {};
 
 export const Aircraft = createVisualComponent({
+
   ...STATICS,
 
   //@@viewOn:propTypes
@@ -27,6 +30,8 @@ export const Aircraft = createVisualComponent({
   //@@viewOff:defaultProps
 
   render(props) {
+    // const {data, handlerMap} = useAircrafts()
+    // console.log(handlerMap)
     //@@viewOn:private
     //@@viewOff:private
 
@@ -35,7 +40,9 @@ export const Aircraft = createVisualComponent({
 
     //@@viewOn:render
 
-    return <div>Aircraft will be here</div>;
+    return (
+                <AircraftCard params={props.params} />
+    );
     //@@viewOff:render
   },
 });

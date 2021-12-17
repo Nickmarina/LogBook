@@ -18,8 +18,7 @@ export const AircraftsLoader = createComponent({
         load: Calls.aircraftList,
       },
       itemHandlerMap: {
-        // update: Calls.listUpdate,
-        // delete: Calls.listDelete,
+        get: Calls.aircraftGet,
       },
     });
 

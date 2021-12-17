@@ -14,10 +14,10 @@ export const AircraftLoader = createComponent({
 
   render(props) {
     const dataListResult = useDataList({
-      handlerMap: {
-        load: Calls.aircraftList,
+      handlerMap: {},
+      itemHandlerMap: {
+        get: Calls.aircraftGet,
       },
-      itemHandlerMap: {},
     });
 
     return <AircraftContext.Provider value={dataListResult}>{props.children}</AircraftContext.Provider>;
