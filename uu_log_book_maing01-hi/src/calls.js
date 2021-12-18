@@ -81,6 +81,10 @@ let Calls = {
     let commandUri = Calls.getCommandUri("place/list");
     return Calls.call("get", commandUri, {});
   },
+  personalPilotCardGet(dtoIn){
+    let commandUri = Calls.getCommandUri("personalPilotCard/get");
+    return Calls.call("get", commandUri, dtoIn);
+  },
 
   /*
   For calling command on specific server, in case of developing client site with already deployed

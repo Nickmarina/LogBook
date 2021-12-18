@@ -61,7 +61,7 @@ export const AircraftCard = createVisualComponent({
         <UU5.Bricks.Header content={aircraft.regNum} level="5" />
         <UU5.Bricks.Header content={aircraft.model} level="5" />
         <UU5.Bricks.Text content={aircraft.state} />
-        <EntriesList data={data?.itemList} />
+        {/* <EntriesList data={data?.itemList} /> */}
       </UU5.Bricks.Card>
     );
     //@@viewOff:render

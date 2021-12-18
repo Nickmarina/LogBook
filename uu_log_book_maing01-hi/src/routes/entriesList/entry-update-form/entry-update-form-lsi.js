@@ -21,7 +21,7 @@ const Lsi = {
       en: "Description",
     },
     saveError: {
-      en: "Saving was failed",
+      en: "Saving was failed. Please check all fields",
     },
     saveSuccess: {
       en: "Saved=)",

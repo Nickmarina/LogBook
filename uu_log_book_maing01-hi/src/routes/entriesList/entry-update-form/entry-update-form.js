@@ -39,12 +39,12 @@ const EntryUpdateForm = createVisualComponent({
 
     async function handleUpdate(formData) {
       const { values, component } = formData;
-      const newObject = { id: data.id, ...values };
-      console.log(newObject);
+      console.log(values.departureDate)
+      const newObject = { id: data?.data.id, ...values };
 
       component.setPending();
       try {
-        await Calls.logBookEntryUpdate(newObject);
+        await data.handlerMap.update(newObject);
         component.getAlertBus().addAlert({
           content: <UU5.Common.Error content={<UU5.Bricks.Lsi lsi={Lsi.saveSuccess} />} />,
           colorSchema: "success",
@@ -71,32 +71,35 @@ const EntryUpdateForm = createVisualComponent({
           label="departureDate"
           name="departureDate"
           valueType="iso"
-          value={data.departureDate}
+          value={data.data?.departureDate}
           size="m"
+          required
         />
         <UU5.Forms.DatePicker
           label="arrivalDate"
           name="arrivalDate"
-          value={data.arrivalDate}
+          value={data.data?.arrivalDate}
           valueType="iso"
           size="m"
+          required
         />
-        <UU5.Forms.Select name="departurePlace" label="departurePlace" size="m" value={data.departurePlace}>
+        <UU5.Forms.Select name="departurePlace" label="departurePlace" size="m" value={data.data?.departurePlace} required>
           {listOfPlaces?.map((place) => (
             <UU5.Forms.Select.Option key={place?.id} value={place?.codeOfPlace} />
           ))}
         </UU5.Forms.Select>
-        <UU5.Forms.Select name="arrivalPlace" label="arrivalPlace" size="m" value={data.arrivalPlace}>
+        <UU5.Forms.Select name="arrivalPlace" label="arrivalPlace" size="m" value={data.data?.arrivalPlace} required>
           {listOfPlaces?.map((place) => (
             <UU5.Forms.Select.Option key={place?.id} value={place?.codeOfPlace} />
           ))}
         </UU5.Forms.Select>
-        <UU5.Forms.Text label="regNum" name="regNum" value={data.regNum} />
+        <UU5.Forms.Text label="regNum" name="regNum" value={data.data?.regNum} required/>
         <UU5.Forms.Text
           label="entryState"
           name="entryState"
-          value={data?.entryState}
+          value={data.data?.entryState}
           placeholder={"APPROVED or DISAPPROVED or IN_PROGRESS"}
+          required
         />
       </UU5.Forms.ContextForm>
     );

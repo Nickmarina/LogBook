@@ -1,7 +1,8 @@
 import UU5 from "uu5g04";
-import { createVisualComponent } from "uu5g04-hooks";
+import { createVisualComponent, useRef } from "uu5g04-hooks";
 import Config from "./config/config";
 import { EntryUpdateControls, EntryUpdateForm, EntryUpdateHeader } from "./entry-update-form/entry-update-form";
+import MoreInfoModal from "./more-info-modal";
 
 const STATICS = {
   displayName: Config.TAG + "CustomTile",
@@ -16,8 +17,8 @@ export const CustomTile = createVisualComponent({
   },
 
   render(props) {
-    const { data: entry, closeModal, open, handlerMap } = props;
-    console.log(handlerMap);
+    const modalRef = useRef();
+    const { data: entry, closeModal, open } = props;
 
     function handleUpdate(data) {
       open({
@@ -27,28 +28,59 @@ export const CustomTile = createVisualComponent({
       });
     }
 
+    function handleOpenMoreInfoModal(data) {
+      modalRef.current.open({
+        header: data.regNum,
+        content: <MoreInfoModal data={data}/>,
+        footer: (
+          <UU5.Bricks.Button content="Close" onClick={modalRef.current.close} colorSchema="cyan" bgStyle="outline" />
+        ),
+      });
+    }
+
     const className = Config.Css.css``;
     const attrs = UU5.Common.VisualComponent.getAttrs(props, className);
     const currentNestingLevel = UU5.Utils.NestingLevel.getNestingLevel(props, STATICS);
     return currentNestingLevel ? (
       <div {...attrs}>
         <UU5.Bricks.Div>
-          <UU5.Bricks.Card width={300} className="uu5-common-padding-s">
+          <UU5.Bricks.Card className="uu5-common-padding-m">
+            <UU5.Bricks.Icon icon="uubml-airplane" />
+            <UU5.Bricks.Header content="Depature information" level="5" />
             <UU5.Bricks.Text>
               Depature date:
-              <UU5.Bricks.DateTime value={entry?.data?.departureDate || entry.departureDate} />
+              <UU5.Bricks.DateTime value={entry?.data?.departureDate} />
+            </UU5.Bricks.Text>
+            <UU5.Bricks.Text> Depature place: {entry?.data?.departurePlace}</UU5.Bricks.Text>
+            <UU5.Bricks.Header content="Arrival information" level="5" />
+            <UU5.Bricks.Text>
+              Arrival date:
+              <UU5.Bricks.DateTime value={entry?.data?.arrivalDate} />
+            </UU5.Bricks.Text>
+            <UU5.Bricks.Text>Arrival place: {entry?.data?.arrivalPlace}</UU5.Bricks.Text>
+            <UU5.Bricks.Button colorSchema="cyan" bgStyle="outline" onClick={() => handleOpenMoreInfoModal(entry.data)}>
+              <UU5.Bricks.Icon icon="plus4u-visible" />
+            </UU5.Bricks.Button>
+            <UU5.Bricks.Button colorSchema="cyan" bgStyle="outline" onClick={() => handleUpdate(entry)}>
+              <UU5.Bricks.Icon icon="plus4u5-pencil" />
+            </UU5.Bricks.Button>
+
+            {/* <UU5.Bricks.Text>
+              Depature date:
+              <UU5.Bricks.DateTime value={entry?.data?.departureDate || entry?.departureDate} />
             </UU5.Bricks.Text>
             <UU5.Bricks.Text>
               Arrival date:
-              <UU5.Bricks.DateTime value={entry?.data?.arrivalDate || entry.arrivalDate} />
+              <UU5.Bricks.DateTime value={entry?.data?.arrivalDate || entry?.arrivalDate} />
             </UU5.Bricks.Text>
-            <UU5.Bricks.Text> Depature place: {entry?.data?.departurePlace || entry.departurePlace}</UU5.Bricks.Text>
-            <UU5.Bricks.Text>Arrival place: {entry?.data?.arrivalPlace || entry.arrivalPlace}</UU5.Bricks.Text>
-            <UU5.Bricks.Text> Reg num:{entry?.data?.regNum || entry.regNum}</UU5.Bricks.Text>
-            <UU5.Bricks.Button colorSchema="cyan" bgStyle="outline" onClick={() => handleUpdate(entry?.data || entry)}>
+            <UU5.Bricks.Text> Depature place: {entry?.data?.departurePlace || entry?.departurePlace}</UU5.Bricks.Text>
+            <UU5.Bricks.Text>Arrival place: {entry?.data?.arrivalPlace || entry?.arrivalPlace}</UU5.Bricks.Text>
+            <UU5.Bricks.Text> Reg num:{entry?.data?.regNum || entry?.regNum}</UU5.Bricks.Text>
+            <UU5.Bricks.Button colorSchema="cyan" bgStyle="outline" onClick={() => handleUpdate(entry)}>
               <UU5.Bricks.Icon icon="plus4u5-pencil" />
-            </UU5.Bricks.Button>
+            </UU5.Bricks.Button> */}
           </UU5.Bricks.Card>
+          <UU5.Bricks.Modal ref_={modalRef} />
         </UU5.Bricks.Div>
       </div>
     ) : null;
