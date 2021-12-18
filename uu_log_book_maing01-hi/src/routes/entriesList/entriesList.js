@@ -1,7 +1,7 @@
 //@@viewOn:imports
 import UU5 from "uu5g04";
 import "uu5g04-bricks";
-import { createVisualComponent } from "uu5g04-hooks";
+import { createVisualComponent, useState, useEffect } from "uu5g04-hooks";
 import Uu5Tiles from "uu5tilesg02";
 import Plus4U5 from "uu_plus4u5g01";
 import "uu_plus4u5g01-bricks";
@@ -11,6 +11,7 @@ import { useContextModal } from "../../common/modal-manager";
 import useEntries from "./context/use-entries";
 import CustomTile from "./custom-tile";
 import { EntryCreateControls, EntryCreateHeader, EntryCreateForm } from "./entry-create-form/entry-create-form";
+import Calls from "../../calls";
 // import Lsi from "../config/lsi.js";
 //@@viewOff:imports
 
@@ -32,10 +33,10 @@ export const EntriesList = createVisualComponent({
   //@@viewOff:defaultProps
 
   render(props) {
-    console.log(props.data);
-
     const { data, handlerMap, itemHandlerMap } = useEntries();
     const [open, close, showAlert, getConfirmRef] = useContextModal();
+    const [listByAircraft, setListByAircraft] = useState();
+
 
     //@@viewOn:private
     //@@viewOff:private
@@ -54,16 +55,6 @@ export const EntriesList = createVisualComponent({
     }
     const currentNestingLevel = UU5.Utils.NestingLevel.getNestingLevel(props, STATICS);
 
-    // if (props?.data) {
-    //   return currentNestingLevel ? (
-    //     <Uu5Tiles.ControllerProvider data={props?.data}>
-    //       <Uu5Tiles.AddButton onClick={handleCreate}>Add new entry</Uu5Tiles.AddButton>
-    //       <Uu5Tiles.Grid tileMinWidth={200} tileMaxWidth={400} tileSpacing={8} rowSpacing={8}>
-    //         <CustomTile closeModal={close} open={open} handlerMap={handlerMap} />
-    //       </Uu5Tiles.Grid>
-    //     </Uu5Tiles.ControllerProvider>
-    //   ) : null;
-    // } else {
     return currentNestingLevel ? (
       <Uu5Tiles.ControllerProvider data={data}>
         <Uu5Tiles.AddButton onClick={handleCreate}>Add new entry</Uu5Tiles.AddButton>

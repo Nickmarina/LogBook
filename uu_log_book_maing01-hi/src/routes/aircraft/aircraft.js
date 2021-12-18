@@ -4,7 +4,9 @@ import "uu5g04-bricks";
 import { createVisualComponent } from "uu5g04-hooks";
 import Plus4U5 from "uu_plus4u5g01";
 import "uu_plus4u5g01-bricks";
-import useAircrafts from "../aircraftsList/context/use-aircrafts";
+import EntriesLoader from "../entriesList/entries-loader";
+import EntriesContext from "../entriesList/context/entries-context";
+import DataListStateResolver from "../../common/data-list-state-resolver";
 import AircraftCard from "./aircraft-card";
 
 import Config from "./config/config";
@@ -20,7 +22,6 @@ const STATICS = {
 const CLASS_NAMES = {};
 
 export const Aircraft = createVisualComponent({
-
   ...STATICS,
 
   //@@viewOn:propTypes
@@ -39,9 +40,18 @@ export const Aircraft = createVisualComponent({
     //@@viewOff:interface
 
     //@@viewOn:render
-
     return (
-      <AircraftCard params={props.params} />
+      <EntriesLoader>
+        <EntriesContext.Consumer>
+          {(dataListResult) => {
+            return (
+              <DataListStateResolver dataList={dataListResult}>
+                <AircraftCard params={props.params} />
+              </DataListStateResolver>
+            );
+          }}
+        </EntriesContext.Consumer>
+      </EntriesLoader>
     );
     //@@viewOff:render
   },

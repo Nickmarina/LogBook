@@ -49,7 +49,6 @@ export const Left = createVisualComponent({
           borderBottom
           // NOTE Item "id" equals to useCase so that item gets automatically selected when route changes (see spa-autheticated.js).
           items={[
-            { id: "home", href: "home", content: <UU5.Bricks.Lsi lsi={Lsi.left.home} /> },
             { id: "entriesList", href: "entriesList", content: <UU5.Bricks.Lsi lsi={Lsi.left.entriesList} /> },
             { id: "aircrafts", href: "aircrafts", content: <UU5.Bricks.Lsi lsi={Lsi.left.aircrafts} /> },
           ]}

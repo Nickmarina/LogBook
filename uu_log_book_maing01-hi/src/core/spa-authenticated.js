@@ -9,7 +9,6 @@ import Config from "./config/config";
 import { ModalManager } from "../common/modal-manager";
 import Left from "./left";
 import Bottom from "./bottom";
-import Home from "../routes/home";
 import Entries from "../routes/entriesList/entries";
 import Aircrafts from "../routes/aircraftsList/aircrafts";
 import Aircraft from "../routes/aircraft/aircraft";
@@ -25,10 +24,9 @@ const About = UU5.Common.Component.lazy(() => import("../routes/about"));
 const InitAppWorkspace = UU5.Common.Component.lazy(() => import("../routes/init-app-workspace"));
 const ControlPanel = UU5.Common.Component.lazy(() => import("../routes/control-panel"));
 
-const DEFAULT_USE_CASE = "home";
+const DEFAULT_USE_CASE = "entriesList";
 const ROUTES = {
   "": DEFAULT_USE_CASE,
-  home: { component: <Home /> },
   entriesList: { component: <Entries /> },
   aircrafts: { component: <Aircrafts /> },
   aircraft: { component: <Aircraft /> },
