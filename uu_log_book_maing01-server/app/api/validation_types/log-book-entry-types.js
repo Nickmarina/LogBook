@@ -6,9 +6,8 @@ const logBookEntryCreateDtoInType = shape({
     departurePlace: string(3).isRequired(),
     arrivalPlace: string(3).isRequired(),
     coPilotIdentity: id(),
-    regNum: string(6).isRequired()
-  
-});
+    regNum: string(6).isRequired(),
+})
 
 const logBookEntryListDtoInType = shape({
     sortBy:oneOf(["regNum", "departureDate"]),
@@ -16,19 +15,20 @@ const logBookEntryListDtoInType = shape({
     regNum: string(6),
     pageInfo: shape({
       pageIndex: integer(),
-      pageSize: integer()
+      pageSize: integer(),
     })
-});
+})
 
 const logBookEntryListByPilotDtoInType = shape({
+    coPilotIdentity: id().isRequired,
     sortBy: oneOf(["regNum", "departureDate"]),
     order: oneOf(["asc", "desc"]),
     regNum: string(6),
     pageInfo: shape({
       pageIndex: integer(),
-      pageSize: integer()
+      pageSize: integer(),
     })
-});
+})
 
 const logBookEntryUpdateDtoInType = shape({
     id: id().isRequired(),
@@ -36,17 +36,17 @@ const logBookEntryUpdateDtoInType = shape({
     arrivalDate: date(),
     departurePlace: string(3),
     arrivalPlace: string(3),
-    coPilotIdentity: uuIdentity(),
+    coPilotIdentity: id(),
     regNum: string(6), 
-    entryState: oneOf(["APPROVED", "DISAPPROVED", "IN_PROGRESS"])
-});
+    entryState: oneOf(["APPROVED", "DISAPPROVED", "IN_PROGRESS"]),
+})
 
 const logBookEntryGetDtoInType = shape({
-    id: id().isRequired()
-  });
+    id: id().isRequired(),
+  })
 
 const logBookEntryDeleteDtoInType = shape({
     id: id().isRequired(),
-});
+})
 
 

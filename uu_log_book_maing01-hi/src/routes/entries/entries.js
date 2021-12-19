@@ -5,9 +5,9 @@ import { createVisualComponent } from "uu5g04-hooks";
 import Plus4U5 from "uu_plus4u5g01";
 import "uu_plus4u5g01-bricks";
 
-import Config from "./config/config";
-import EntriesLoader from "./entries-loader";
-import EntriesContext from "./context/entries-context";
+import Config from "../config/config";
+import EntriesLoader from "../../bricks/entriesList/entries-loader";
+import EntriesContext from "../../bricks/entriesList/context/entries-context";
 import DataListStateResolver from "../../common/data-list-state-resolver";
 import EntriesList from "./entriesList"
 // import Lsi from "../config/lsi.js";
@@ -45,7 +45,7 @@ export const Entries = createVisualComponent({
           {(dataListResult) => {
             return (
               <DataListStateResolver dataList={dataListResult}>
-                <EntriesList />
+                <EntriesList pilot={props?.params?.pilotId}/>
               </DataListStateResolver>
             );
           }}

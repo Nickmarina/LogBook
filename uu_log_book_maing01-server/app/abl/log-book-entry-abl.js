@@ -27,6 +27,7 @@ class LogBookEntryAbl {
     this.validator = Validator.load();
     this.logBookDao = DaoFactory.getDao("logBook");
     this.placeDao = DaoFactory.getDao("place");
+    this.pilotDao = DaoFactory.getDao("personalPilotCard");
     this.dao = DaoFactory.getDao("logBookEntry");
   }
 
@@ -147,37 +148,38 @@ class LogBookEntryAbl {
     if (!logBook) {
       throw new Errors.List.LogBookDoesNotExist({ uuAppErrorMap }, { awid });
     }
-    if (logBook.state !== "underConstruction" && logBook.state !== "active") {
+    if (logBook.state !== "active") {
       throw new Errors.List.LogBookIsNotInCorrectState(
         { uuAppErrorMap },
-        { awid, currentState: logBook.state, expectedState: ["active", "underConstruction"] }
+        { awid, state: logBook.state, expectedState: "active" }
       );
     }
+  //   // HDS 2
 
-    // HDS 2
-    const validationResult = this.validator.validate("logBookEntryListByPilotDtoInType", dtoIn);
-    uuAppErrorMap = ValidationHelper.processValidationResult(
-      dtoIn,
-      validationResult,
-      WARNINGS.listUnsupportedKeys.code,
-      Errors.List.InvalidDtoIn
-    );
+  //   const validationResult = this.validator.validate("logBookEntryListByPilotDtoInType", dtoIn);
+  //   uuAppErrorMap = ValidationHelper.processValidationResult(
+  //     dtoIn,
+  //     validationResult,
+  //     WARNINGS.deleteUnsupportedKeys.code,
+  //     Errors.List.InvalidDtoIn
+  // ); 
 
+    //  HDS 3
     let uuObject = { ...dtoIn, awid };
     if (!dtoIn.pageInfo) uuObject.pageInfo = {};
-    if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 10;
-    if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 50;
+    if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 0;
+    if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 1000;
     if (!dtoIn.order) uuObject.order = "asc";
     if (!dtoIn.sortBy) uuObject.sortBy = "departureDate";
 
     // HDS 3
     let list = null;
 
-    const { uuIdentity, sortBy, order, pageInfo, regNum } = uuObject;
+    const { coPilotIdentity, sortBy, order, pageInfo, regNum } = uuObject;
 
     !dtoIn.regNum
-      ? (list = await this.dao.listByUuIdentity(awid, uuIdentity, sortBy, order, pageInfo))
-      : (list = await this.dao.listByRegNumAndUuIdentity(awid, uuIdentity, regNum, sortBy, order, pageInfo));
+      ? (list = await this.dao.listByUuIdentity(awid, coPilotIdentity, sortBy, order, pageInfo))
+      : (list = await this.dao.listByRegNumAndUuIdentity(awid, coPilotIdentity, regNum, sortBy, order, pageInfo));
 
     // HDS 4
     return {
@@ -262,6 +264,8 @@ class LogBookEntryAbl {
     if (!dtoIn.pageInfo) uuObject.pageInfo = {};
     if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 0;
     if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 1000;
+    if (!dtoIn.order) uuObject.order = "asc";
+    if (!dtoIn.sortBy) uuObject.sortBy = "departureDate";
 
     let list = null;
 
@@ -271,7 +275,7 @@ class LogBookEntryAbl {
         uuObject.regNum,
         uuObject.sortBy,
         uuObject.order,
-        uuObject.pageInf
+        uuObject.pageInfo
       );
     } else {
       list = await this.dao.list(uuObject.awid, uuObject.sortBy, uuObject.order, uuObject.pageInfo);

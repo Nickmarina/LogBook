@@ -4,8 +4,8 @@ import "uu5g04-bricks";
 import { createVisualComponent } from "uu5g04-hooks";
 import Plus4U5 from "uu_plus4u5g01";
 import "uu_plus4u5g01-bricks";
-import EntriesLoader from "../entriesList/entries-loader";
-import EntriesContext from "../entriesList/context/entries-context";
+import EntriesLoader from "../../bricks/entriesList/entries-loader";
+import EntriesContext from "../../bricks/entriesList/context/entries-context";
 import DataListStateResolver from "../../common/data-list-state-resolver";
 import AircraftCard from "./aircraft-card";
 

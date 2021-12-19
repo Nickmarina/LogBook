@@ -81,7 +81,7 @@ class LogBookEntry extends UuObjectDao {
     } else {
       order === "asc" ? (sort = { regNum: 1 }) : (sort = { regNum: -1 });
     }
-    const filter = { awid, uuIdentity };
+    const filter = { awid, coPilotIdentity: uuIdentity };
     return await super.find(filter, pageInfo, sort);
   }
 }

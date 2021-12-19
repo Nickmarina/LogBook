@@ -16,7 +16,7 @@ export const EntriesLoader = createComponent({
     const dataListResult = useDataList({
       handlerMap: {
         load: Calls.logBookEntryList,
-        loadByPilt: Calls.logBookEntryListByPilot,
+        loadByPilot: Calls.logBookEntryListByPilot,
         create: Calls.logBookEntryCreate,
       },
       itemHandlerMap: {

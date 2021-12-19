@@ -1,7 +1,7 @@
 //@@viewOn:imports
 import UU5 from "uu5g04";
 import "uu5g04-bricks";
-import { createVisualComponent } from "uu5g04-hooks";
+import { createVisualComponent, useState } from "uu5g04-hooks";
 import Plus4U5 from "uu_plus4u5g01";
 import "uu_plus4u5g01-app";
 
@@ -25,6 +25,23 @@ export const Left = createVisualComponent({
   //@@viewOff:defaultProps
 
   render(props) {
+    const [pilotMenu, setPilotMenu] = useState(false);
+    const [text, setText] = useState("Now it's the menu for operators");
+    function handleChangeMenu() {
+      if (pilotMenu === false) {
+        setPilotMenu(true);
+        setText("Now it's the menu for pilots");
+        UU5.Environment.setRoute({
+          url: { useCase: "entriesList", parameters: { pilotId: "61bc8752acaa882ed4acfdca" } },
+        });
+      } else {
+        setPilotMenu(false);
+        setText("Now it's the menu for operators");
+        UU5.Environment.setRoute({
+          url: { useCase: "entriesList" },
+        });
+      }
+    }
     //@@viewOn:private
     //@@viewOff:private
 
@@ -45,15 +62,46 @@ export const Left = createVisualComponent({
         aboutItems={[{ content: <UU5.Bricks.Lsi lsi={Lsi.left.about} />, href: "about" }]}
         helpHref={null}
       >
-        <Plus4U5.App.MenuTree
+        <UU5.Bricks.Button
+          colorSchema="cyan"
+          bgStyle="transparent"
+          size="l"
+          content={text}
+          onClick={() => handleChangeMenu()}
+        />
+        {pilotMenu ? (
+          <Plus4U5.App.MenuTree
+            borderBottom
+            items={[
+              {
+                id: "entriesList",
+                href: `entriesList?pilotId=61bc8752acaa882ed4acfdca`,
+                content: <UU5.Bricks.Lsi lsi={Lsi.left.entriesList} />,
+              },
+              {
+                id: "aircrafts",
+                href: `aircrafts?pilotId=61bc8752acaa882ed4acfdca`,
+                content: <UU5.Bricks.Lsi lsi={Lsi.left.aircrafts} />,
+              },
+            ]}
+          />
+        ) : (
+          <Plus4U5.App.MenuTree
+            borderBottom
+            items={[
+              { id: "entriesList", href: "entriesList", content: <UU5.Bricks.Lsi lsi={Lsi.left.entriesList} /> },
+              { id: "aircrafts", href: "aircrafts", content: <UU5.Bricks.Lsi lsi={Lsi.left.aircrafts} /> },
+            ]}
+          />
+        )}
+        {/* <Plus4U5.App.MenuTree
           borderBottom
           // NOTE Item "id" equals to useCase so that item gets automatically selected when route changes (see spa-autheticated.js).
           items={[
             { id: "entriesList", href: "entriesList", content: <UU5.Bricks.Lsi lsi={Lsi.left.entriesList} /> },
             { id: "aircrafts", href: "aircrafts", content: <UU5.Bricks.Lsi lsi={Lsi.left.aircrafts} /> },
           ]}
-
-        />
+        /> */}
       </Plus4U5.App.Left>
     );
     //@@viewOff:render

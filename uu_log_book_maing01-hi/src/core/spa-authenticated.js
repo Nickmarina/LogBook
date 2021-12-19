@@ -9,7 +9,7 @@ import Config from "./config/config";
 import { ModalManager } from "../common/modal-manager";
 import Left from "./left";
 import Bottom from "./bottom";
-import Entries from "../routes/entriesList/entries";
+import Entries from "../routes/entries/entries";
 import Aircrafts from "../routes/aircraftsList/aircrafts";
 import Aircraft from "../routes/aircraft/aircraft";
 //@@viewOff:imports

@@ -35,14 +35,15 @@ export const MoreInfoModal = createVisualComponent({
 
     useEffect(() => {
       const fetchData = async () => {
+        console.log(data.regNum)
         const plane = await Calls.aircraftGet({ "regNum": data.regNum });
-        await setAircraft(plane);
-        const person = await Calls.personalPilotCardGet({ "id": data.coPilotIdentity });
-        await setPilot(person);
+        setAircraft(plane);
+        const person = await Calls.personalPilotCardGet({ "id": data.coPilotIdentity});
+        setPilot(person);
         console.log(data)
       };
       fetchData();
-    }, [props.data]);
+    }, [data]);
 
     //@@viewOn:private
     //@@viewOff:private
@@ -56,18 +57,18 @@ export const MoreInfoModal = createVisualComponent({
       <UU5.Bricks.Div>
         <UU5.Bricks.Text>
           Depature date:
-          <UU5.Bricks.DateTime value={data.departureDate} />
+          <UU5.Bricks.DateTime value={data?.departureDate} />
         </UU5.Bricks.Text>
-        <UU5.Bricks.Text> Depature place: {data.departurePlace}</UU5.Bricks.Text>
+        <UU5.Bricks.Text> Depature place: {data?.departurePlace}</UU5.Bricks.Text>
         <UU5.Bricks.Text>
           Arrival date:
-          <UU5.Bricks.DateTime value={data.arrivalDate} />
+          <UU5.Bricks.DateTime value={data?.arrivalDate} />
         </UU5.Bricks.Text>
-        <UU5.Bricks.Text>Arrival place: {data.arrivalPlace}</UU5.Bricks.Text>
-        <UU5.Bricks.Text> Reg num: {data.regNum}</UU5.Bricks.Text>
+        <UU5.Bricks.Text>Arrival place: {data?.arrivalPlace}</UU5.Bricks.Text>
+        <UU5.Bricks.Text> Reg num: {data?.regNum}</UU5.Bricks.Text>
         <UU5.Bricks.Text> Aircraft model: {aircraft?.model}</UU5.Bricks.Text>
         <UU5.Bricks.Text> Pilot: {pilot?.name}</UU5.Bricks.Text>
-        <UU5.Bricks.Text> State: {data.entryState}</UU5.Bricks.Text>
+        <UU5.Bricks.Text> State: {data?.entryState}</UU5.Bricks.Text>
       </UU5.Bricks.Div>
     );
     //@@viewOff:render
