@@ -3,7 +3,6 @@ import UU5 from "uu5g04";
 import "uu5g04-bricks";
 import { createVisualComponent } from "uu5g04-hooks";
 import Uu5Tiles from "uu5tilesg02";
-import Plus4U5 from "uu_plus4u5g01";
 import "uu_plus4u5g01-bricks";
 
 import Config from "../config/config";
@@ -16,39 +15,18 @@ import {
   EntryCreateForm,
 } from "../../bricks/entriesList/entry-create-form/entry-create-form";
 
-// import Lsi from "../config/lsi.js";
-//@@viewOff:imports
-
 const STATICS = {
-  //@@viewOn:statics
   displayName: Config.TAG + "EntiriesList",
-  //@@viewOff:statics
 };
 
-const CLASS_NAMES = {};
 
 export const EntriesList = createVisualComponent({
   ...STATICS,
 
-  //@@viewOn:propTypes
-  //@@viewOff:propTypes
-
-  //@@viewOn:defaultProps
-  //@@viewOff:defaultProps
-
   render(props) {
-    const { pilot } = props;
     const { data, handlerMap } = useEntries();
-    const [open, close, showAlert, getConfirmRef] = useContextModal();
+    const [open, close] = useContextModal();
 
-
-    //@@viewOn:private
-    //@@viewOff:private
-   
-    //@@viewOn:interface
-    //@@viewOff:interface
-
-    //@@viewOn:render
 
     function handleCreate() {
       open({
@@ -66,7 +44,6 @@ export const EntriesList = createVisualComponent({
         </Uu5Tiles.Grid>
       </Uu5Tiles.ControllerProvider>
     ) : null;
-    // }
   },
 });
 

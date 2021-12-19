@@ -135,6 +135,22 @@ const Update = {
       this.message = "Update logBookEntry by logBookEntry Dao update failed.";
     }
   },
+  ArrivalDateIsNotCorrect: class extends BookMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}arrivalDateIsNotCorrect`;
+      this.message = "Arrival date cannot be the same or earlier than departure date!";
+    }
+  },
+
+  ArrivalPlaceIsNotCorrect: class extends BookMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}arrivalPlaceIsNotCorrect`;
+      this.message = "Arrival place cannot be the same than departure place!";
+    }
+  },
+
 };
 
 const Get = {

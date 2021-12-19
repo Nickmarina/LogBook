@@ -77,6 +77,10 @@ let Calls = {
     return Calls.call("get", commandUri, dtoInData);
   },
 
+  aircraftSetState(dtoInData) {
+    let commandUri = Calls.getCommandUri("aircraft/setState");
+    return Calls.call("post", commandUri, dtoInData);
+  },
   placeList() {
     let commandUri = Calls.getCommandUri("place/list");
     return Calls.call("get", commandUri, {});

@@ -18,6 +18,14 @@ class PlaceMongo extends UuObjectDao {
     };
     return await super.findOne(filter);
   }
+  
+  async getByCode(awid, codeOfPlace) {
+    let filter = {
+      awid,
+      codeOfPlace
+    };
+    return await super.findOne(filter);
+  }
 
   async delete(awid, id) {
     let filter = {

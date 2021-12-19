@@ -131,7 +131,25 @@ class LogBookEntryAbl {
     }
 
     // HDS 4
-    // something else
+    const arrival = new Date(dtoIn.arrivalDate);
+    const depature = new Date(dtoIn.departureDate);
+    if (arrival.getTime() <= depature.getTime()) {
+      throw new Errors.Update.ArrivalDateIsNotCorrect({ uuAppErrorMap }, { deadline: dtoIn.deadline });
+    }
+
+    // HDS 4
+    const arrivalPlace = this.placeDao.getByCode({ awid, codeOfPlace: dtoIn.arrivalPlace });
+    const departurePlace = this.placeDao.getByCode({ awid, codeOfPlace: dtoIn.departurePlace });
+
+    if (arrivalPlace === departurePlace) {
+      throw new Errors.Create.ArrivalPlaceIsNotCorrect(
+        { uuAppErrorMap },
+        {
+          arrivalPlace: dtoIn.arrivalPlace,
+          departurePlace: dtoIn.departurePlace,
+        }
+      );
+    }
     const uuObject = { awid, ...dtoIn };
     const updatedEntry = await this.dao.update(uuObject);
 
@@ -154,15 +172,15 @@ class LogBookEntryAbl {
         { awid, state: logBook.state, expectedState: "active" }
       );
     }
-  //   // HDS 2
+    // HDS 2
 
-  //   const validationResult = this.validator.validate("logBookEntryListByPilotDtoInType", dtoIn);
-  //   uuAppErrorMap = ValidationHelper.processValidationResult(
-  //     dtoIn,
-  //     validationResult,
-  //     WARNINGS.deleteUnsupportedKeys.code,
-  //     Errors.List.InvalidDtoIn
-  // ); 
+    const validationResult = this.validator.validate("logBookEntryListByPilotDtoInType", dtoIn);
+    uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.deleteUnsupportedKeys.code,
+      Errors.List.InvalidDtoIn
+    );
 
     //  HDS 3
     let uuObject = { ...dtoIn, awid };
@@ -188,56 +206,6 @@ class LogBookEntryAbl {
     };
   }
 
-  // async list(awid, dtoIn, uuAppErrorMap) {
-  //   // HDS 1
-  //   const logBook = await this.logBookDao.getByAwid(awid);
-  //   if (!logBook) {
-  //     throw new Errors.List.LogBookDoesNotExist({ uuAppErrorMap }, { awid });
-  //   }
-  //   if (logBook.state !== "active") {
-  //     throw new Errors.List.LogBookIsNotInCorrectState(
-  //       { uuAppErrorMap },
-  //       { awid, currentState: logBook.state, expectedState: "active" }
-  //     );
-  //   }
-  //   // HDS 2
-  //   const validationResult = this.validator.validate("logBookEntryListDtoInType", dtoIn);
-  //   uuAppErrorMap = ValidationHelper.processValidationResult(
-  //     dtoIn,
-  //     validationResult,
-  //     WARNINGS.unsupportedKeys.code,
-  //     Errors.List.InvalidDtoIn
-  //   );
-
-  //   let uuObject = { ...dtoIn, awid };
-  //   if (!dtoIn.pageInfo) uuObject.pageInfo = {};
-  //   if (!uuObject.pageInfo.pageIndex) uuObject.pageInfo.pageIndex = 10;
-  //   if (!uuObject.pageInfo.pageSize) uuObject.pageInfo.pageSize = 50;
-  //   if (!dtoIn.order) uuObject.order = "asc";
-  //   if (!dtoIn.sortBy) uuObject.sortBy = "departureDate";
-
-  //   // HDS 3
-
-  //   let list = null;
-
-  //   if (!dtoIn.regNum) {
-  //     list = await this.dao.list(uuObject.awid, uuObject.sortBy, uuObject.order, uuObject.pageInfo);
-  //   } else {
-  //     list = await this.dao.listByRegNum(
-  //       uuObject.awid,
-  //       uuObject.RegNum,
-  //       uuObject.sortBy,
-  //       uuObject.order,
-  //       uuObject.pageInfo
-  //     );
-  //   }
-
-  //   // HDS 4
-  //   return {
-  //     ...list,
-  //     uuAppErrorMap,
-  //   };
-  // }
   async list(awid, dtoIn, uuAppErrorMap) {
     // HDS 1
     const logBook = await this.logBookDao.getByAwid(awid);
@@ -318,8 +286,8 @@ class LogBookEntryAbl {
     }
 
     // HDS 4
-    const arrivalPlace = this.placeDao.get({ awid, id: dtoIn.arrivalPlace });
-    const departurePlace = this.placeDao.get({ awid, id: dtoIn.departurePlace });
+    const arrivalPlace = this.placeDao.getByCode({ awid, codeOfPlace: dtoIn.arrivalPlace });
+    const departurePlace = this.placeDao.getByCode({ awid, codeOfPlace: dtoIn.departurePlace });
 
     if (arrivalPlace === departurePlace) {
       throw new Errors.Create.ArrivalPlaceIsNotCorrect(
@@ -333,6 +301,10 @@ class LogBookEntryAbl {
 
     // HDS 5
     const uuObject = { awid, ...dtoIn };
+
+    if (!uuObject.state) uuObject.state = "active";
+    if (!uuObject.coPilotIdentity) uuObject.coPilotIdentity = "61bc8752acaa882ed4acfdca";
+
     let logBookEntry = null;
 
     try {

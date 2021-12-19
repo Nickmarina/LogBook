@@ -1,32 +1,17 @@
-//@@viewOn:imports
 import UU5 from "uu5g04";
 import "uu5g04-bricks";
 import { createVisualComponent, useState, useEffect } from "uu5g04-hooks";
-import Plus4U5 from "uu_plus4u5g01";
 import "uu_plus4u5g01-bricks";
 
 import Config from "./config/config";
 import Calls from "../../calls";
 
-// import Lsi from "../config/lsi.js";
-//@@viewOff:imports
-
 const STATICS = {
-  //@@viewOn:statics
-  displayName: Config.TAG + "Entries",
-  //@@viewOff:statics
+  displayName: Config.TAG + "More info",
 };
-
-const CLASS_NAMES = {};
 
 export const MoreInfoModal = createVisualComponent({
   ...STATICS,
-
-  //@@viewOn:propTypes
-  //@@viewOff:propTypes
-
-  //@@viewOn:defaultProps
-  //@@viewOff:defaultProps
 
   render(props) {
     const { data } = props;
@@ -35,23 +20,13 @@ export const MoreInfoModal = createVisualComponent({
 
     useEffect(() => {
       const fetchData = async () => {
-        console.log(data.regNum)
-        const plane = await Calls.aircraftGet({ "regNum": data.regNum });
+        const plane = await Calls.aircraftGet({ regNum: data.regNum });
         setAircraft(plane);
-        const person = await Calls.personalPilotCardGet({ "id": data.coPilotIdentity});
+        const person = await Calls.personalPilotCardGet({ id: data.coPilotIdentity });
         setPilot(person);
-        console.log(data)
       };
       fetchData();
     }, [data]);
-
-    //@@viewOn:private
-    //@@viewOff:private
-
-    //@@viewOn:interface
-    //@@viewOff:interface
-
-    //@@viewOn:render
 
     return (
       <UU5.Bricks.Div>
@@ -71,7 +46,6 @@ export const MoreInfoModal = createVisualComponent({
         <UU5.Bricks.Text> State: {data?.entryState}</UU5.Bricks.Text>
       </UU5.Bricks.Div>
     );
-    //@@viewOff:render
   },
 });
 

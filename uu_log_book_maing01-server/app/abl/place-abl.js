@@ -1,5 +1,4 @@
 "use strict";
-const Path = require("path");
 const { Validator } = require("uu_appg01_server").Validation;
 const { DaoFactory } = require("uu_appg01_server").ObjectStore;
 const { ValidationHelper } = require("uu_appg01_server").AppServer;
@@ -85,8 +84,12 @@ class PlaceAbl {
     );
 
     // HDS 3
+    let place = null;
+    if (dtoIn.codeOfPlace) {
+      place = await this.dao.getByCode(awid, dtoIn.codeOfPlace);
+    }
 
-    const place = await this.dao.get(awid, dtoIn.id);
+    place = await this.dao.get(awid, dtoIn.id);
     if (!place) {
       throw new Errors.Get.PlaceDoesNotExist({ uuAppErrorMap }, { place: dtoIn.id });
     }

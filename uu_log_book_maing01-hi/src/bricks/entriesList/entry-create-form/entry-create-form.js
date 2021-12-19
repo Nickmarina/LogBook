@@ -1,28 +1,20 @@
-//@@viewOn:imports
 import UU5 from "uu5g04";
 import { createVisualComponent, useState, useEffect } from "uu5g04-hooks";
 import Config from "../config/config";
 import Calls from "../../../calls";
 import Lsi from "./entry-create-form-lsi";
-//@@viewOff:imports
 
 const STATICS = {
-  //@@viewOn:statics
   displayName: Config.TAG + "EntryCreateForm",
   nestingLevel: "bigBoxCollection",
-  //@@viewOff:statics
 };
 
 const EntryCreateForm = createVisualComponent({
   ...STATICS,
 
-  //@@viewOn:propTypes
   propTypes: {},
-  //@@viewOff:propTypes
 
-  //@@viewOn:defaultProps
   defaultProps: {},
-  //@@viewOff:defaultProps
 
   render(props) {
     const { closeModal, handlerMap } = props;
@@ -37,8 +29,6 @@ const EntryCreateForm = createVisualComponent({
       fetchData();
     }, []);
 
-
-    console.log(listOfPlaces)
     async function handleCreate(formData) {
       const { values, component } = formData;
 
@@ -49,18 +39,16 @@ const EntryCreateForm = createVisualComponent({
           content: <UU5.Common.Error content={<UU5.Bricks.Lsi lsi={Lsi.saveSuccess} />} />,
           colorSchema: "success",
         });
-  
+
         closeModal();
       } catch {
-        console.log(values)
         component.getAlertBus().addAlert({
           content: <UU5.Common.Error content={<UU5.Bricks.Lsi lsi={Lsi.saveError} />} />,
           colorSchema: "danger",
         });
       }
-      component.setReady();     
+      component.setReady();
     }
-    const className = Config.Css.css``;
     return (
       <UU5.Forms.ContextForm
         onSave={handleCreate}
@@ -100,7 +88,6 @@ const EntryCreateForm = createVisualComponent({
   },
 });
 
-//viewOn:helpers
 const EntryCreateHeader = () => {
   return (
     <UU5.Forms.ContextHeader content={<UU5.Bricks.Lsi lsi={Lsi.header} />} info={<UU5.Bricks.Lsi lsi={Lsi.info} />} />
@@ -115,9 +102,7 @@ const EntryCreateControls = () => {
     />
   );
 };
-//viewOff:helpers
 
-//viewOn:exports
 export { EntryCreateForm, EntryCreateHeader, EntryCreateControls };
 export default EntryCreateForm;
-//viewOff:exports
+

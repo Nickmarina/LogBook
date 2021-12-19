@@ -3,7 +3,7 @@
 const aircraftCreateDtoInType = shape({
     regNum: string(6).isRequired(),
     model: string(100).isRequired(),
-    image: binary().isRequired()
+    image: binary(),
 });
 
 
@@ -19,7 +19,7 @@ const aircraftListDtoInType = shape({
 
 const aircraftSetStateDtoInType = shape({
     id: id().isRequired(),
-    state: oneOf(["open","closed","tested"]).isRequired(),
+    state: oneOf(["open","closed","tested", "active"]).isRequired(),
 })
 
 const aircraftGetDtoInType = shape({

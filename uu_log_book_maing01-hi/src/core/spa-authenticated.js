@@ -1,4 +1,3 @@
-//@@viewOn:imports
 import UU5 from "uu5g04";
 import "uu5g04-bricks";
 import { createVisualComponent, useState } from "uu5g04-hooks";
@@ -12,7 +11,6 @@ import Bottom from "./bottom";
 import Entries from "../routes/entries/entries";
 import Aircrafts from "../routes/aircraftsList/aircrafts";
 import Aircraft from "../routes/aircraft/aircraft";
-//@@viewOff:imports
 
 const STATICS = {
   //@@viewOn:statics
@@ -38,24 +36,12 @@ const ROUTES = {
 export const SpaAuthenticated = createVisualComponent({
   ...STATICS,
 
-  //@@viewOn:propTypes
-  //@@viewOff:propTypes
-
-  //@@viewOn:defaultProps
-  //@@viewOff:defaultProps
 
   render(props) {
-    //@@viewOn:private
     let [initialActiveItemId] = useState(() => {
       let url = UU5.Common.Url.parse(window.location.href);
       return url.useCase || DEFAULT_USE_CASE;
     });
-    //@@viewOff:private
-
-    //@@viewOn:interface
-    //@@viewOff:interface
-
-    //@@viewOn:render
     return (
       <ModalManager>
         <Plus4U5.App.MenuProvider activeItemId={initialActiveItemId}>
@@ -87,7 +73,6 @@ export const SpaAuthenticated = createVisualComponent({
         </Plus4U5.App.MenuProvider>
       </ModalManager>
     );
-    //@@viewOff:render
   },
 });
 

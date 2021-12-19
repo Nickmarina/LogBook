@@ -64,21 +64,6 @@ export const CustomTile = createVisualComponent({
             <UU5.Bricks.Button colorSchema="cyan" bgStyle="outline" onClick={() => handleUpdate(entry)}>
               <UU5.Bricks.Icon icon="plus4u5-pencil" />
             </UU5.Bricks.Button>
-
-            {/* <UU5.Bricks.Text>
-              Depature date:
-              <UU5.Bricks.DateTime value={entry?.data?.departureDate || entry?.departureDate} />
-            </UU5.Bricks.Text>
-            <UU5.Bricks.Text>
-              Arrival date:
-              <UU5.Bricks.DateTime value={entry?.data?.arrivalDate || entry?.arrivalDate} />
-            </UU5.Bricks.Text>
-            <UU5.Bricks.Text> Depature place: {entry?.data?.departurePlace || entry?.departurePlace}</UU5.Bricks.Text>
-            <UU5.Bricks.Text>Arrival place: {entry?.data?.arrivalPlace || entry?.arrivalPlace}</UU5.Bricks.Text>
-            <UU5.Bricks.Text> Reg num:{entry?.data?.regNum || entry?.regNum}</UU5.Bricks.Text>
-            <UU5.Bricks.Button colorSchema="cyan" bgStyle="outline" onClick={() => handleUpdate(entry)}>
-              <UU5.Bricks.Icon icon="plus4u5-pencil" />
-            </UU5.Bricks.Button> */}
           </UU5.Bricks.Card>
           <UU5.Bricks.Modal ref_={modalRef} />
         </UU5.Bricks.Div>
