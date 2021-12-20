@@ -14,6 +14,7 @@ export const CustomTile = createVisualComponent({
 
   propTypes: {
     data: UU5.PropTypes.object,
+    closeModal: UU5.PropTypes.func,
   },
 
   render(props) {

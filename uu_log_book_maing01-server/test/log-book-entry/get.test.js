@@ -16,8 +16,8 @@ describe(`Testing the ${CMD}...`, () => {
   test("HDS by id", async () => {
     let session = await TestHelper.login("AwidLicenseOwner", false, false);
     let dtoIn = {
-      departureDate: "2021-12-18",
-      arrivalDate: "2021-12-19",
+      departureDate: "2021-12-20T22:00:00.000Z",
+      arrivalDate: "2021-12-22T22:00:00.000Z",
       departurePlace: "KBP",
       arrivalPlace: "LWO",
       regNum: "OT-HUP",

@@ -19,15 +19,13 @@ const STATICS = {
   displayName: Config.TAG + "EntiriesList",
 };
 
-
 export const EntriesList = createVisualComponent({
   ...STATICS,
 
   render(props) {
-    const {pilot}= props;
+    const { pilot } = props;
     const { data, handlerMap } = useEntries();
     const [open, close] = useContextModal();
-
 
     function handleCreate() {
       open({
@@ -41,7 +39,7 @@ export const EntriesList = createVisualComponent({
       <Uu5Tiles.ControllerProvider data={data || data.itemList}>
         {pilot ? <Uu5Tiles.AddButton onClick={handleCreate}>Add new entry</Uu5Tiles.AddButton> : null}
         <Uu5Tiles.Grid tileMinWidth={700} tileMaxWidth={1100} tileSpacing={8} rowSpacing={8}>
-          <CustomTile closeModal={close} open={open} handlerMap={handlerMap} pilot={pilot}/>
+          <CustomTile closeModal={close} open={open} handlerMap={handlerMap} pilot={pilot} />
         </Uu5Tiles.Grid>
       </Uu5Tiles.ControllerProvider>
     ) : null;

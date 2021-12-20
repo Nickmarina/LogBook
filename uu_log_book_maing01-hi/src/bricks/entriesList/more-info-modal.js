@@ -5,6 +5,7 @@ import "uu_plus4u5g01-bricks";
 
 import Config from "./config/config";
 import Calls from "../../calls";
+import Lsi from "./more-info-modal-lsi";
 
 const STATICS = {
   displayName: Config.TAG + "More info",
@@ -12,6 +13,10 @@ const STATICS = {
 
 export const MoreInfoModal = createVisualComponent({
   ...STATICS,
+
+  propTypes: {
+    data: UU5.PropTypes.object,
+  },
 
   render(props) {
     const { data } = props;
@@ -31,19 +36,35 @@ export const MoreInfoModal = createVisualComponent({
     return (
       <UU5.Bricks.Div>
         <UU5.Bricks.Text>
-          Depature date:
+          <UU5.Bricks.Lsi lsi={Lsi.depatureDate} />
           <UU5.Bricks.DateTime value={data?.departureDate} />
         </UU5.Bricks.Text>
-        <UU5.Bricks.Text> Depature place: {data?.departurePlace}</UU5.Bricks.Text>
         <UU5.Bricks.Text>
-          Arrival date:
+          <UU5.Bricks.Lsi lsi={Lsi.depaturePlace} />
+          {data?.departurePlace}
+        </UU5.Bricks.Text>
+        <UU5.Bricks.Text>
+          <UU5.Bricks.Lsi lsi={Lsi.arrivalDate} />
           <UU5.Bricks.DateTime value={data?.arrivalDate} />
         </UU5.Bricks.Text>
-        <UU5.Bricks.Text>Arrival place: {data?.arrivalPlace}</UU5.Bricks.Text>
-        <UU5.Bricks.Text> Reg num: {data?.regNum}</UU5.Bricks.Text>
-        <UU5.Bricks.Text> Aircraft model: {aircraft?.model}</UU5.Bricks.Text>
-        <UU5.Bricks.Text> Pilot: {pilot?.name}</UU5.Bricks.Text>
-        <UU5.Bricks.Text> State: {data?.entryState}</UU5.Bricks.Text>
+        <UU5.Bricks.Text>
+          <UU5.Bricks.Lsi lsi={Lsi.arrivalPlace} /> {data?.arrivalPlace}
+        </UU5.Bricks.Text>
+        <UU5.Bricks.Text>
+          <UU5.Bricks.Lsi lsi={Lsi.regNum} /> {data?.regNum}
+        </UU5.Bricks.Text>
+        <UU5.Bricks.Text>
+          <UU5.Bricks.Lsi lsi={Lsi.model} />
+          {aircraft?.model}
+        </UU5.Bricks.Text>
+        <UU5.Bricks.Text>
+          <UU5.Bricks.Lsi lsi={Lsi.pilot} />
+          {pilot?.name}
+        </UU5.Bricks.Text>
+        <UU5.Bricks.Text>
+          <UU5.Bricks.Lsi lsi={Lsi.state} />
+          {data?.entryState}
+        </UU5.Bricks.Text>
       </UU5.Bricks.Div>
     );
   },

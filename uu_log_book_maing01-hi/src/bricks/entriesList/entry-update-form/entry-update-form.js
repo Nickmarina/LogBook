@@ -11,8 +11,10 @@ const STATICS = {
 
 const EntryUpdateForm = createVisualComponent({
   ...STATICS,
-
-  propTypes: {},
+  propTypes: {
+    data: UU5.PropTypes.object,
+    closeModal: UU5.PropTypes.func,
+  },
 
   defaultProps: {},
 
@@ -20,11 +22,14 @@ const EntryUpdateForm = createVisualComponent({
     const { data, closeModal } = props;
     const [isLoading] = useState(false);
     const [listOfPlaces, setListOfPlaces] = useState([]);
+    const [listOfRegsNums, setListOfRegsNums] = useState([]);
 
     useEffect(() => {
       const fetchData = async () => {
         const result = await Calls.placeList();
         await setListOfPlaces(result?.itemList);
+        const aircraft = await Calls.aircraftList();
+        setListOfRegsNums(aircraft.itemList);
       };
       fetchData();
     }, []);
@@ -57,20 +62,13 @@ const EntryUpdateForm = createVisualComponent({
         progressIndicator={<UU5.Bricks.Loading />}
         disabled={isLoading}
       >
-        <UU5.Forms.DatePicker
+        <UU5.Forms.Datetimepicker
           label="departureDate"
+          value={data.data?.departureDate}
+          placeholderTime="12:30"
+          size="m"
           name="departureDate"
           valueType="iso"
-          value={data.data?.departureDate}
-          size="m"
-          required
-        />
-        <UU5.Forms.DatePicker
-          label="arrivalDate"
-          name="arrivalDate"
-          value={data.data?.arrivalDate}
-          valueType="iso"
-          size="m"
           required
         />
         <UU5.Forms.Select
@@ -84,12 +82,27 @@ const EntryUpdateForm = createVisualComponent({
             <UU5.Forms.Select.Option key={place?.id} value={place.codeOfPlace} />
           ))}
         </UU5.Forms.Select>
+
+        <UU5.Forms.Datetimepicker
+          label="arrivalDate"
+          placeholder="1/1/2022"
+          arrivalTime="12:30"
+          size="m"
+          name="arrivalDate"
+          valueType="iso"
+          value={data.data?.arrivalDate}
+          required
+        />
         <UU5.Forms.Select name="arrivalPlace" label="arrivalPlace" size="m" value={data.data?.arrivalPlace} required>
           {listOfPlaces?.map((place) => (
             <UU5.Forms.Select.Option key={place?.id} value={place.codeOfPlace} />
           ))}
         </UU5.Forms.Select>
-        <UU5.Forms.Text label="regNum" name="regNum" value={data.data?.regNum} required />
+        <UU5.Forms.Select name="regNum" label="regNum" size="m" value={data.data.regNum} required>
+          {listOfRegsNums?.map((aircraft) => (
+            <UU5.Forms.Select.Option key={aircraft?.id} value={aircraft?.regNum} />
+          ))}
+        </UU5.Forms.Select>
         <UU5.Forms.Text
           label="entryState"
           name="entryState"

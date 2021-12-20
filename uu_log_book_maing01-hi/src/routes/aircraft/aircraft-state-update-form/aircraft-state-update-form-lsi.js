@@ -4,7 +4,7 @@ const Lsi = {
     },
     info: {
       en:
-        "<uu5string/>On this form you can change state of test ticket. For more information see <UU5.Bricks.Link href='%s' target='_blank' content='documentation'/>.",
+        "<uu5string/>On this form you can change the status of the aircraft. For more information see <UU5.Bricks.Link href='%s' target='_blank' content='documentation'/>.",
     },
     submit: (param)=>{
         return{

@@ -12,8 +12,11 @@ const STATICS = {
 
 const AircraftStateUpdateForm = createVisualComponent({
   ...STATICS,
+  propTypes: {
+    data: UU5.PropTypes.object,
+    closeModal: UU5.PropTypes.func,
+  },
 
-  propTypes: {},
   defaultProps: {},
 
   render(props) {
