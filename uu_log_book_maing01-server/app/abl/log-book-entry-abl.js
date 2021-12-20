@@ -302,9 +302,7 @@ class LogBookEntryAbl {
     // HDS 5
     const uuObject = { awid, ...dtoIn };
 
-    if (!uuObject.state) uuObject.state = "active";
-    if (!uuObject.coPilotIdentity) uuObject.coPilotIdentity = "61bc8752acaa882ed4acfdca";
-
+    if (!uuObject.state) uuObject.entryState = "APPROVED";
     let logBookEntry = null;
 
     try {

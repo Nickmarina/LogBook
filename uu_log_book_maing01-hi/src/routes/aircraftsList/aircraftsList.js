@@ -23,7 +23,7 @@ export const AircraftsList = createVisualComponent({
     return currentNestingLevel ? (
       <Uu5Tiles.ControllerProvider data={data}>
         <Uu5Tiles.Grid tileMinWidth={200} tileMaxWidth={400} tileSpacing={8} rowSpacing={8}>
-          <CustomTile />
+          <CustomTile pilot={props.pilot}/>
         </Uu5Tiles.Grid>
       </Uu5Tiles.ControllerProvider>
     ) : null;

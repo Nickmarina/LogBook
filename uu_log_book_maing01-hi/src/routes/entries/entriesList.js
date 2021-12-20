@@ -24,6 +24,7 @@ export const EntriesList = createVisualComponent({
   ...STATICS,
 
   render(props) {
+    const {pilot}= props;
     const { data, handlerMap } = useEntries();
     const [open, close] = useContextModal();
 
@@ -31,16 +32,16 @@ export const EntriesList = createVisualComponent({
     function handleCreate() {
       open({
         header: <EntryCreateHeader />,
-        content: <EntryCreateForm handlerMap={handlerMap} closeModal={close} />,
+        content: <EntryCreateForm handlerMap={handlerMap} closeModal={close} pilot={pilot} />,
         footer: <EntryCreateControls isCreateForm={true} />,
       });
     }
     const currentNestingLevel = UU5.Utils.NestingLevel.getNestingLevel(props, STATICS);
     return currentNestingLevel ? (
       <Uu5Tiles.ControllerProvider data={data || data.itemList}>
-        <Uu5Tiles.AddButton onClick={handleCreate}>Add new entry</Uu5Tiles.AddButton>
+        {pilot ? <Uu5Tiles.AddButton onClick={handleCreate}>Add new entry</Uu5Tiles.AddButton> : null}
         <Uu5Tiles.Grid tileMinWidth={700} tileMaxWidth={1100} tileSpacing={8} rowSpacing={8}>
-          <CustomTile closeModal={close} open={open} handlerMap={handlerMap} />
+          <CustomTile closeModal={close} open={open} handlerMap={handlerMap} pilot={pilot}/>
         </Uu5Tiles.Grid>
       </Uu5Tiles.ControllerProvider>
     ) : null;

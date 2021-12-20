@@ -15,12 +15,17 @@ export const CustomTile = createVisualComponent({
   },
 
   render(props) {
-    const { data: aircraft } = props;
+    const { data: aircraft, pilot } = props;
+    console.log(pilot)
 
     function handleOpenAircraft(data) {
-      UU5.Environment.setRoute({
-        url: { useCase: "aircraft", parameters: { aircraftId: data.id } },
-      });
+      pilot
+        ? UU5.Environment.setRoute({
+            url: { useCase: "aircraft", parameters: { aircraftId: data.id, pilotId:pilot.pilotId}},
+          })
+        : UU5.Environment.setRoute({
+            url: { useCase: "aircraft", parameters: { aircraftId: data.id } },
+          });
     }
 
     const className = Config.Css.css``;

@@ -17,7 +17,7 @@ const EntryCreateForm = createVisualComponent({
   defaultProps: {},
 
   render(props) {
-    const { closeModal, handlerMap } = props;
+    const { closeModal, handlerMap, pilot } = props;
     const [isLoading] = useState(false);
     const [listOfPlaces, setListOfPlaces] = useState([]);
 
@@ -34,7 +34,7 @@ const EntryCreateForm = createVisualComponent({
 
       component.setPending();
       try {
-        await handlerMap.create(values);
+        await handlerMap.create({ ...values, coPilotIdentity: pilot });
         component.getAlertBus().addAlert({
           content: <UU5.Common.Error content={<UU5.Bricks.Lsi lsi={Lsi.saveSuccess} />} />,
           colorSchema: "success",
@@ -105,4 +105,3 @@ const EntryCreateControls = () => {
 
 export { EntryCreateForm, EntryCreateHeader, EntryCreateControls };
 export default EntryCreateForm;
-

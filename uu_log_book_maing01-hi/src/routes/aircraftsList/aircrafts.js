@@ -25,7 +25,7 @@ export const Aircrafts = createVisualComponent({
           {(dataListResult) => {
             return (
               <DataListStateResolver dataList={dataListResult}>
-                <AircraftsList />
+                <AircraftsList pilot={props.params}/>
               </DataListStateResolver>
             );
           }}

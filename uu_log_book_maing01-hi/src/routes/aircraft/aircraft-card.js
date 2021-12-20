@@ -23,15 +23,15 @@ const STATICS = {
   displayName: Config.TAG + "AircraftCard",
 };
 
-
 export const AircraftCard = createVisualComponent({
   ...STATICS,
 
   render(props) {
+    const { params } = props;
     const { data, handlerMap } = useEntries();
     const [aircraft, setAircraft] = useState({});
     const [aircraftStatus, setAircraftStatus] = useState(aircraft?.state);
- 
+
     const [open, close] = useContextModal();
     useEffect(() => {
       const fetchData = async () => {
@@ -42,7 +42,7 @@ export const AircraftCard = createVisualComponent({
       };
 
       fetchData();
-    }, [props?.params?.aircraftId]);
+    }, [params?.aircraftId]);
 
     function handleCreate() {
       open({
@@ -86,14 +86,20 @@ export const AircraftCard = createVisualComponent({
           </UU5.Bricks.Header>
           <UU5.Bricks.Text>
             Status: {aircraftStatus}
-            <UU5.Bricks.Button onClick={() => handleSetState(aircraft)}>
-              <UU5.Bricks.Icon icon="plus4u5-pencil" />
-            </UU5.Bricks.Button>
+            {!params.pilotId ? (
+              <UU5.Bricks.Button onClick={() => handleSetState(aircraft)}>
+                <UU5.Bricks.Icon icon="plus4u5-pencil" />
+              </UU5.Bricks.Button>
+            ) : null}
           </UU5.Bricks.Text>
-          <Uu5Tiles.AddButton onClick={handleCreate}>Add new entry</Uu5Tiles.AddButton>
-          <Uu5Tiles.Grid tileMinWidth={500} tileMaxWidth={700} tileSpacing={8} rowSpacing={8}>
-            <CustomTile closeModal={close} open={open} handlerMap={handlerMap} />
-          </Uu5Tiles.Grid>
+          {aircraft.state !== "closed" ? (
+            <div>
+              {params.pilotId ? <Uu5Tiles.AddButton onClick={handleCreate}>Add new entry</Uu5Tiles.AddButton> : null}
+              <Uu5Tiles.Grid tileMinWidth={500} tileMaxWidth={700} tileSpacing={8} rowSpacing={8}>
+                <CustomTile closeModal={close} open={open} handlerMap={handlerMap} pilot={params.pilotId} />
+              </Uu5Tiles.Grid>
+            </div>
+          ) : null}
         </UU5.Bricks.Card>
       </Uu5Tiles.ControllerProvider>
     ) : null;

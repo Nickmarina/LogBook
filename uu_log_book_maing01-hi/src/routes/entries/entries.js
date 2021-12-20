@@ -16,7 +16,6 @@ export const Entries = createVisualComponent({
   ...STATICS,
 
   render(props) {
- 
     return (
       <EntriesLoader>
         <EntriesContext.Consumer>

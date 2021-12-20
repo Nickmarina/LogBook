@@ -18,20 +18,24 @@ export const CustomTile = createVisualComponent({
 
   render(props) {
     const modalRef = useRef();
-    const { data: entry, closeModal, open } = props;
+    const { data: entry, closeModal, open, pilot } = props;
 
     function handleUpdate(data) {
-      open({
-        header: <EntryUpdateHeader />,
-        content: <EntryUpdateForm data={data} closeModal={closeModal} />,
-        footer: <EntryUpdateControls />,
-      });
+      console.log(entry);
+      console.log(pilot);
+      data.data.coPilotIdentity === pilot
+        ? open({
+            header: <EntryUpdateHeader />,
+            content: <EntryUpdateForm data={data} closeModal={closeModal} />,
+            footer: <EntryUpdateControls />,
+          })
+        : alert("You cannot change this flight");
     }
 
     function handleOpenMoreInfoModal(data) {
       modalRef.current.open({
         header: data.regNum,
-        content: <MoreInfoModal data={data}/>,
+        content: <MoreInfoModal data={data} />,
         footer: (
           <UU5.Bricks.Button content="Close" onClick={modalRef.current.close} colorSchema="cyan" bgStyle="outline" />
         ),
@@ -61,9 +65,11 @@ export const CustomTile = createVisualComponent({
             <UU5.Bricks.Button colorSchema="cyan" bgStyle="outline" onClick={() => handleOpenMoreInfoModal(entry.data)}>
               <UU5.Bricks.Icon icon="plus4u-visible" />
             </UU5.Bricks.Button>
-            <UU5.Bricks.Button colorSchema="cyan" bgStyle="outline" onClick={() => handleUpdate(entry)}>
-              <UU5.Bricks.Icon icon="plus4u5-pencil" />
-            </UU5.Bricks.Button>
+            {pilot ? (
+              <UU5.Bricks.Button colorSchema="cyan" bgStyle="outline" onClick={() => handleUpdate(entry)}>
+                <UU5.Bricks.Icon icon="plus4u5-pencil" />
+              </UU5.Bricks.Button>
+            ) : null}
           </UU5.Bricks.Card>
           <UU5.Bricks.Modal ref_={modalRef} />
         </UU5.Bricks.Div>
