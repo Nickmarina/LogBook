@@ -19,8 +19,9 @@ describe(`Testing the ${CMD}...`, () => {
       departureDate: "2021-12-18",
       arrivalDate: "2021-12-19",
       departurePlace: "KBP",
-      arrivalPlace: "KBP",
+      arrivalPlace: "LWO",
       regNum: "OT-HUP",
+      coPilotIdentity: "61bc8752acaa882ed4acfdca"
     };
     await TestHelper.executePostCommand("logBookEntry/create", dtoIn, session);
     const result = await TestHelper.executeGetCommand(CMD, {}, session);

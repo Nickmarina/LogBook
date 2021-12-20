@@ -19,11 +19,12 @@ describe(`Testing the ${CMD}...`, () => {
       departureDate: "2021-12-18",
       arrivalDate: "2021-12-19",
       departurePlace: "KBP",
-      arrivalPlace: "KBP",
+      arrivalPlace: "LWO",
       regNum: "OT-HUP",
+      coPilotIdentity: "61bc8752acaa882ed4acfdca"
     };
     let entry = await TestHelper.executePostCommand("logBookEntry/create", dtoIn, session);
-    const result = await TestHelper.executePostCommand(CMD, { id: entry.id, regNum: "OT-HUM" }, session);
+    const result = await TestHelper.executePostCommand(CMD, { id: entry.id, arrivalPlace: "LDO", departurePlace: "KBP", }, session);
     expect(result.status).toEqual(200);
     expect(result.data.uuAppErrorMap).toBeDefined();
   });

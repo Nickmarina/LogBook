@@ -138,11 +138,8 @@ class LogBookEntryAbl {
     }
 
     // HDS 4
-    const arrivalPlace = this.placeDao.getByCode({ awid, codeOfPlace: dtoIn.arrivalPlace });
-    const departurePlace = this.placeDao.getByCode({ awid, codeOfPlace: dtoIn.departurePlace });
-
-    if (arrivalPlace === departurePlace) {
-      throw new Errors.Create.ArrivalPlaceIsNotCorrect(
+    if (dtoIn.arrivalPlace.toLowerCase() === dtoIn.departurePlace.toLowerCase()) {
+      throw new Errors.Update.ArrivalPlaceIsNotCorrect(
         { uuAppErrorMap },
         {
           arrivalPlace: dtoIn.arrivalPlace,
@@ -286,10 +283,10 @@ class LogBookEntryAbl {
     }
 
     // HDS 4
-    const arrivalPlace = this.placeDao.getByCode({ awid, codeOfPlace: dtoIn.arrivalPlace });
-    const departurePlace = this.placeDao.getByCode({ awid, codeOfPlace: dtoIn.departurePlace });
+    // const arrivalPlace = this.placeDao.getByCode({ awid, codeOfPlace: dtoIn.arrivalPlace });
+    // const departurePlace = this.placeDao.getByCode({ awid, codeOfPlace: dtoIn.departurePlace });
 
-    if (arrivalPlace === departurePlace) {
+    if (dtoIn.arrivalPlace.toLowerCase()=== dtoIn.departurePlace.toLowerCase()) {
       throw new Errors.Create.ArrivalPlaceIsNotCorrect(
         { uuAppErrorMap },
         {

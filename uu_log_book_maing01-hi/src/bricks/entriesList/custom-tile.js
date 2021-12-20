@@ -21,8 +21,6 @@ export const CustomTile = createVisualComponent({
     const { data: entry, closeModal, open, pilot } = props;
 
     function handleUpdate(data) {
-      console.log(entry);
-      console.log(pilot);
       data.data.coPilotIdentity === pilot
         ? open({
             header: <EntryUpdateHeader />,

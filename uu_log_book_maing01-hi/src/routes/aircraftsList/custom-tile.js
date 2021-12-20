@@ -16,7 +16,6 @@ export const CustomTile = createVisualComponent({
 
   render(props) {
     const { data: aircraft, pilot } = props;
-    console.log(pilot)
 
     function handleOpenAircraft(data) {
       pilot
